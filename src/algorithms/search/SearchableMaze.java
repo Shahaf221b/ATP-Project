@@ -96,6 +96,9 @@ public class SearchableMaze implements ISearchable {
             return 10;
         }
         return 15;
+
+        
+
     }
 
     public ArrayList<AState> getAllPossibleMoves(Position p){
