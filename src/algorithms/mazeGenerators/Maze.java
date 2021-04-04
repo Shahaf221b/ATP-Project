@@ -1,4 +1,3 @@
-// hellooooooo
 
 package algorithms.mazeGenerators;
 
@@ -11,8 +10,6 @@ public class Maze {
     private Position startPosition;
     private Position goalPosition;
     private final Position[][] positions;
-
-
 
     public Maze(int rows, int columns) {
         this.rows = rows;
