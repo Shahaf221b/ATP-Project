@@ -28,7 +28,7 @@ public class Position extends MazeState {
 
     @Override
     public boolean equals(Object obj) {
-        if (getClass() != obj.getClass()) { // TODO: added by intellij's advice
+        if (getClass() != obj.getClass()) {
             return false;
         }
         Position p = (Position) obj;

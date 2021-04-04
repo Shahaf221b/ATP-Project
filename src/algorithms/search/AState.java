@@ -1,6 +1,5 @@
 package algorithms.search;
 
-// TODO: why does it implement this?
 public abstract class AState implements Comparable<AState> {
 
     private boolean visited;
@@ -30,7 +29,6 @@ public abstract class AState implements Comparable<AState> {
         this.visited = true;
     }
 
-    // TODO: changed to !this- from is visited to not visited
     public boolean notVisited() {
         return !this.visited;
     }

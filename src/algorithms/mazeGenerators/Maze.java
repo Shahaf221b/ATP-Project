@@ -1,3 +1,5 @@
+// hellooooooo
+
 package algorithms.mazeGenerators;
 
 import java.util.Arrays;
@@ -17,14 +19,13 @@ public class Maze {
         positions = new Position[rows][columns];
     }
 
-    // TODO: why another construct?
     public Maze(int rows, int columns, int val) {
         this.rows = rows;
         this.columns = columns;
         this.m_maze = new int[rows][columns];
         positions = new Position[rows][columns];
         for (int i = 0; i < rows; i++) {
-            Arrays.fill(m_maze[i], 1);
+            Arrays.fill(m_maze[i], val);
         }
     }
 

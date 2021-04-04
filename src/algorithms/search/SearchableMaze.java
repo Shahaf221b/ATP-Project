@@ -48,7 +48,7 @@ public class SearchableMaze implements ISearchable {
         p.setVisited();
         int row = p.getRowIndex();
         int column = p.getColumnIndex();
-        myMaze.updatePosition(row, column, p); //TODO: needed?
+        myMaze.updatePosition(row, column, p);
     }
 
     @Override
