@@ -10,6 +10,8 @@ public class Maze {
     private Position goalPosition;
     private final Position[][] positions;
 
+
+
     public Maze(int rows, int columns) {
         this.rows = rows;
         this.columns = columns;
