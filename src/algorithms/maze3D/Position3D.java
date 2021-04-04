@@ -34,4 +34,16 @@ public class Position3D extends Maze3DState {
         int c = p.getColumnIndex();
         return(DepthIndex==d && RowIndex==r && ColumnIndex==c);
     }
+
+    public void setDepthIndex(int depthIndex) {
+        DepthIndex = depthIndex;
+    }
+
+    public void setRowIndex(int rowIndex) {
+        RowIndex = rowIndex;
+    }
+
+    public void setColumnIndex(int columnIndex) {
+        ColumnIndex = columnIndex;
+    }
 }

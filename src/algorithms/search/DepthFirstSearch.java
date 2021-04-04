@@ -37,10 +37,6 @@ public class DepthFirstSearch extends ASearchingAlgorithm {
             AState state = stack.pop();
             if (state.equals(goalState)) {
                 solutionArray = getPathFromParents(state);
-                for (int i = 0 ; i < solutionArray.size(); i ++){
-                    AState Bstate = solutionArray.get(i);
-                    domain.changeVal(Bstate);
-                }
                 return new Solution(solutionArray);
 
             }

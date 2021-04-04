@@ -1,5 +1,7 @@
 package algorithms.maze3D;
 
+import algorithms.maze3D.Maze3D;
+import algorithms.maze3D.Position3D;
 import algorithms.mazeGenerators.Position;
 import algorithms.search.AState;
 import algorithms.search.ISearchable;
@@ -46,12 +48,15 @@ public class SearchableMaze3D implements ISearchable {
         // other dimensions
         int dim = myMaze3D.getDepth();
         for (int j = 0; j < dim; j ++){
-            Position3D newP = myMaze3D.getPositions(j, pX, pY);
-            if (j != pZ){
-                if (myMaze3D.getCellValue(newP) == 0){
-                    pSet.add(newP);
+            Position3D newP = myMaze3D.getPosition(j, pX, pY);
+            if(newP != null){
+                if (j != pZ){
+                    if (myMaze3D.getCellValue(newP) == 0){
+                        pSet.add(newP);
+                    }
                 }
             }
+
         }
 
         // sides
@@ -60,9 +65,11 @@ public class SearchableMaze3D implements ISearchable {
             x = x_values[i];
             y = y_values[i];
             if (x >= 0 && x < myMaze3D.getRows() && y >= 0 && y < myMaze3D.getColumns()) {
-                Position3D newP = myMaze3D.getPositions(pZ, x, y);
-                if (myMaze3D.getCellValue(newP) == 0){
-                    pSet.add(newP);
+                Position3D newP = myMaze3D.getPosition(pZ, x, y);
+                if(newP != null){
+                    if (myMaze3D.getCellValue(newP) == 0){
+                        pSet.add(newP);
+                    }
                 }
             }
         }
@@ -83,12 +90,15 @@ public class SearchableMaze3D implements ISearchable {
         int dim = myMaze3D.getDepth();
         int row = myMaze3D.getRows();
         int column = myMaze3D.getColumns();
-        for (int i = 0; i < row; i ++){
-            for (int j = 0; j < column; j ++){
-                for (int z = 0; z < dim; z++) {
+        int[][][] matrix = myMaze3D.getMap();
+        for (int i = 0; i < dim; i ++){
+            for (int j = 0; j < row; j ++){
+                for (int z = 0; z < column; z++) {
                     // TODO: CHANGE TO ARRAY OF O AND 1. 0- NOT VISITED, 1- VISITED
-                    Position3D newP = new Position3D(z, i, j);
-                    setPosition(newP);
+                    if(matrix[i][j][z]==0){
+                        Position3D newP = new Position3D(i,j,z);
+                        setPosition(newP);
+                    }
                 }
             }
         }
@@ -119,7 +129,7 @@ public class SearchableMaze3D implements ISearchable {
         setPosition(p);
     }
 
-    @Override
+
     public void changeVal(AState state) {
         Position3D p = (Position3D) state;
         myMaze3D.changeVal(p.getDepthIndex(), p.getRowIndex(), p.getColumnIndex());

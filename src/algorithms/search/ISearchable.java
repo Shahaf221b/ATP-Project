@@ -13,8 +13,6 @@ public interface ISearchable {
     void updateParent(AState s, AState parent);
     void setState(AState state);
 
-    void changeVal(AState state); // TODO: DELETE
-
 
     ArrayList<AState> getAllPossibleStatesNoDiagonal(AState startState);
 }

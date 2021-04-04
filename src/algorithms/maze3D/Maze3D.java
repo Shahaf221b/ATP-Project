@@ -2,27 +2,22 @@ package algorithms.maze3D;
 
 import algorithms.mazeGenerators.Maze;
 import algorithms.mazeGenerators.Position;
+import algorithms.search.SearchableMaze;
 
 import java.util.Arrays;
 
 public class Maze3D {
     private int depth, rows, columns;
     private int[][][] m_maze;
-    private Maze[] allMazes;
     private Position3D startPosition;
     private Position3D goalPosition;
     private Position3D[][][] positions;
-
-    public void setDepth(int depth) {
-        this.depth = depth;
-    }
 
     public Maze3D(int depth, int rows, int columns) {
         this.depth = depth;
         this.rows = rows;
         this.columns = columns;
         this.m_maze = new int[depth][rows][columns];
-        this.allMazes = new Maze[depth];
         this.positions = new Position3D[depth][rows][columns];
         for(int i=0; i<depth; i++){
             for( int j=0; j<rows; j++){
@@ -43,17 +38,7 @@ public class Maze3D {
         return goalPosition;
     }
 
-    public void setDim(int dim, int[][] maze) {
-        if(dim<=this.depth){
-            m_maze[dim]=maze;
-        }
-    }
 
-    public void setMazeinDim(int dim, Maze m){
-        if(dim<=this.depth){
-            allMazes[dim] = m;
-        }
-    }
 
     public int getDepth() {
         return depth;
@@ -108,26 +93,14 @@ public class Maze3D {
         setCell(goalPosition,0);
     }
 
-    public Maze[] getAllMazes() {
-        return allMazes;
-    }
 
     public void setPosition3D(Position3D p){
-        int pDepth = p.getDepthIndex();
+        int pDepth =p.getDepthIndex();
         int pRow = p.getRowIndex();
         int pCol = p.getColumnIndex();
-        if(pDepth< depth && pRow<rows && pCol< columns){
+        if(pDepth< depth && pRow<rows && pCol< columns && pDepth>=0 && pRow>=0 && pCol>=0){
             positions[pDepth][pRow][pCol] =p;
         }
-    }
-
-    // TODO: DELETE- FOR TEST
-    public void changeVal(int depth, int row, int columns){
-        m_maze[depth][row][columns] = 5;
-    }
-
-    public Position3D getPositions(int depth, int row, int column) {
-        return positions[depth][row][column];
     }
 
     public void setCell(Position3D p, int val){
@@ -149,12 +122,24 @@ public class Maze3D {
         return columns;
     }
 
+    public Position3D getPosition(int dim, int row, int col) {
+        if(dim<depth && row<rows && col<columns && dim>=0 && row>=0 && col>=0){
+            return positions[dim][row][col];
+        }
+        return null;
+    }
+
+    // TODO: DELETE- FOR TEST
+    public void changeVal(int depth, int row, int columns){
+        m_maze[depth][row][columns] = 5;
+    }
+
     public int getCellValue(Position3D p){
-        int rowIndex = p.getRowIndex();
-        int colIndex = p.getColumnIndex();
-        int depthIndex = p.getDepthIndex();
-        if(rowIndex>=0 && rowIndex<rows && colIndex>=0 && colIndex<columns){
-            return m_maze[depthIndex][rowIndex][colIndex];
+        int dim = p.getDepthIndex();
+        int row = p.getRowIndex();
+        int col = p.getColumnIndex();
+        if(dim<depth && row<rows && col<columns && dim>=0 && row>=0 && col>=0){
+            return m_maze[dim][row][col];
         }
         return -1;
     }
