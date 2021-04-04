@@ -4,7 +4,7 @@ public abstract class AState implements Comparable<AState> {
 
     private boolean visited;
     private AState parent;
-    private int costFromStart;
+    private int cost;
     private String name;
 
     /* constructor */
@@ -42,15 +42,15 @@ public abstract class AState implements Comparable<AState> {
     }
 
     public void setCost(int num) {
-        this.costFromStart = num;
+        this.cost = num;
     }
 
     public int getCost() {
-        return costFromStart;
+        return cost;
     }
 
     @Override
     public int compareTo(AState s) {
-        return (this.getCost() - s.getCost());
+        return (s.getCost() - this.getCost());
     }
 }
