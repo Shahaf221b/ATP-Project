@@ -104,6 +104,10 @@ public class Maze {
         return -1;
     }
 
+    public void changeVal(int row, int columns){
+        m_maze[row][columns] = 5;
+    }
+
     public Position getPositions(int row, int column) {
         return positions[row][column];
     }

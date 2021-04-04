@@ -4,14 +4,16 @@ import algorithms.mazeGenerators.Maze;
 import algorithms.mazeGenerators.Position;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
 public class SearchableMaze implements ISearchable {
     private Maze myMaze;
+
     public SearchableMaze(Maze maze) {
-        this.myMaze = maze;
+        if (maze != null){
+            this.myMaze = maze;
+        }
     }
 
     @Override
@@ -29,8 +31,6 @@ public class SearchableMaze implements ISearchable {
         return false;
     }
 
-
-
     @Override
     public void initAllStates() {
         int row = myMaze.getRows();
@@ -41,7 +41,6 @@ public class SearchableMaze implements ISearchable {
                 setPosition(newP);
             }
         }
-
     }
 
     @Override
@@ -68,8 +67,44 @@ public class SearchableMaze implements ISearchable {
     public void setState(AState state) {
         Position p = (Position)state;
         setPosition(p);
-
     }
+
+    @Override
+    public void changeVal(AState state) {
+        Position p = (Position)state;
+        myMaze.changeVal(p.getRowIndex(), p.getColumnIndex());
+    }
+
+    //TODO : re write
+    @Override
+    public ArrayList<AState> getAllPossibleStatesNoDiagonal(AState startState) {
+        Position p = (Position)startState;
+        Set<AState> pSet = new HashSet<>();
+        int pX = p.getRowIndex();
+        int pY = p.getColumnIndex();
+        int[] x_values = {pX - 1, pX, pX + 1, pX};
+        int[] y_values = {pY, pY - 1, pY, pY + 1};
+        boolean[] path = {false, false, false, false};
+
+        int x,y;
+        for (int i = 0; i < 4; i++) {
+            x = x_values[i];
+            y = y_values[i];
+            if (x >= 0 && x < myMaze.getRows() && y >= 0 && y < myMaze.getColumns()) { //TODO:changed
+                Position newP = myMaze.getPositions(x, y);
+                if (myMaze.getCellValue(newP) == 0){
+                    pSet.add(newP);
+                    newP.setName("Sides"); // TODO: new
+                    path[i] = true;
+                }
+            }
+        }
+
+        ArrayList<AState> ans = new ArrayList<>(pSet.size());
+        ans.addAll(pSet);
+        return ans;
+    }
+
 
     public void setPosition(Position p) {
         myMaze.setPositions(p.getRowIndex(), p.getColumnIndex(), p);
@@ -88,7 +123,7 @@ public class SearchableMaze implements ISearchable {
         return ans;
     }
 
-    @Override
+
     // TODO: NEW
     public int getCost(AState state) {
         String name = state.getName();
@@ -96,10 +131,8 @@ public class SearchableMaze implements ISearchable {
             return 10;
         }
         return 15;
-
-        
-
     }
+
 
     public ArrayList<AState> getAllPossibleMoves(Position p){
         Set<AState> pSet = new HashSet<>();
@@ -149,67 +182,10 @@ public class SearchableMaze implements ISearchable {
             else {
                 val_2++;
             }
-
         }
 
         ArrayList<AState> ans = new ArrayList<>(pSet.size());
         ans.addAll(pSet);
         return ans;
     }
-
-    /*
-    public ArrayList<AState>[] getAllPossibleMoves(Position p){
-        Set<AState> pSet = new HashSet<>();
-        Set<AState> pSetDiagonal = new HashSet<>();
-        int x = p.getRowIndex();
-        int y = p.getColumnIndex();
-        int[] x_values = {x - 1, x, x + 1, x};
-        int[] y_values = {y, y - 1, y, y + 1};
-        boolean[] path = {false, false, false, false};
-
-        for (int i = 0; i < 4; i++) {
-            x = x_values[i];
-            y = y_values[i];
-            if (x >= 0 && x < myMaze.getColumns() && y >= 0 && y < myMaze.getRows()) {
-                Position newP = myMaze.getPositions(x, y);
-                if (myMaze.getCellValue(newP) == 0){
-                    pSet.add(newP);
-                    path[i] = true;
-                }
-            }
-        }
-
-        // diagonal
-        int[] diagonal_x = {x-1, x-1, x+1, x+1};
-        int[] diagonal_y = {y-1, y-1, y+1, y+1};
-        int[][] wantedValues = {{0,3}, {0, 1}, {1, 2}, {2, 3}};
-        for (int j = 0; j < 4; j++){
-            x = diagonal_x[j];
-            y = diagonal_y[j];
-            if (x >= 0 && x < myMaze.getColumns() && y >= 0 && y < myMaze.getRows()) {
-                Position newP = myMaze.getPositions(x, y);
-                if (myMaze.getCellValue(newP) == 0){
-                    int val_1 = wantedValues[j][0];
-                    int val_2 = wantedValues[j][1];
-                    if (path[val_1] || path[val_2]){
-                        pSetDiagonal.add(newP);
-                    }
-                }
-            }
-        }
-
-        ArrayList<AState> sideWays = new ArrayList<>(pSet.size());
-        sideWays.addAll(pSet);
-
-        ArrayList<AState> diagonal = new ArrayList<>(pSetDiagonal.size());
-        diagonal.addAll(pSetDiagonal);
-
-        ArrayList<AState>[] allPositions = new ArrayList[2];
-        allPositions[0] = sideWays;
-        allPositions[1] = diagonal;
-
-        return allPositions;
-    }
-
-     */
 }

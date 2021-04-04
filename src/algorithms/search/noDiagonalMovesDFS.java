@@ -3,11 +3,10 @@ package algorithms.search;
 import java.util.ArrayList;
 import java.util.Stack;
 
-public class DepthFirstSearch extends ASearchingAlgorithm {
+public class noDiagonalMovesDFS extends ASearchingAlgorithm{
 
-
-    public DepthFirstSearch(){
-        this.name = "DepthFirstSearch";
+    public noDiagonalMovesDFS(){
+        this.name = "noDiagonalMovesDFS";
         this.struct = new Stack<AState>();
         this.solutionArray = new ArrayList<>();
     }
@@ -19,7 +18,7 @@ public class DepthFirstSearch extends ASearchingAlgorithm {
         AState startState = domain.getStartState();
         domain.updateVisited(startState);
 
-        ArrayList<AState> stateSuccessors = domain.getAllPossibleStates(startState);
+        ArrayList<AState> stateSuccessors = domain.getAllPossibleStatesNoDiagonal(startState);
         Stack<AState> stack = (Stack<AState>) this.struct;
         AState goalState = domain.getGoalState();
 
@@ -37,15 +36,11 @@ public class DepthFirstSearch extends ASearchingAlgorithm {
             AState state = stack.pop();
             if (state.equals(goalState)) {
                 solutionArray = getPathFromParents(state);
-                for (int i = 0 ; i < solutionArray.size(); i ++){
-                    AState Bstate = solutionArray.get(i);
-                    domain.changeVal(Bstate);
-                }
                 return new Solution(solutionArray);
 
             }
             // adding the state's successors into the stack
-            stateSuccessors = domain.getAllPossibleStates(state);
+            stateSuccessors = domain.getAllPossibleStatesNoDiagonal(state);
             for (AState newState : stateSuccessors) {
                 if (!newState.isVisited()) {
                     domain.updateVisited(newState);
@@ -59,9 +54,4 @@ public class DepthFirstSearch extends ASearchingAlgorithm {
     }
 
 
-
-
-
 }
-
-
