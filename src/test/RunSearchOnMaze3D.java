@@ -14,7 +14,7 @@ import java.util.ArrayList;
 public class RunSearchOnMaze3D {
     public static void main(String[] args) {
         IMazeGenerator3D img3 = new MyMaze3DGenerator();
-        Maze3D m = img3.generate(3,5,10);
+        Maze3D m = img3.generate(50,50,50);
 
         SearchableMaze3D searchableMaze = new SearchableMaze3D(m);
 //        solveProblem(searchableMaze, new BreadthFirstSearch());

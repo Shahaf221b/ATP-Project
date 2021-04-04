@@ -86,6 +86,7 @@ public class SearchableMaze3D implements ISearchable {
         for (int i = 0; i < row; i ++){
             for (int j = 0; j < column; j ++){
                 for (int z = 0; z < dim; z++) {
+                    // TODO: CHANGE TO ARRAY OF O AND 1. 0- NOT VISITED, 1- VISITED
                     Position3D newP = new Position3D(z, i, j);
                     setPosition(newP);
                 }
