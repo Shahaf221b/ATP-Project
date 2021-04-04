@@ -1,13 +1,15 @@
 package algorithms.search;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.LinkedList;
 import java.util.Queue;
 
-public abstract class ABFS extends ASearchingAlgorithm {
+public abstract class Abfs extends ASearchingAlgorithm {
 
     protected Queue<AState> queue;
+
+    public abstract int getCost(ISearchable domain, AState s);
+
+    public abstract Queue<AState> getStruct();
 
     @Override
     public Solution solve(ISearchable domain) {
@@ -20,12 +22,9 @@ public abstract class ABFS extends ASearchingAlgorithm {
         startState.setCost(0);
 
         ArrayList<AState> stateSuccessors = domain.getAllPossibleStates(startState);
-
-
         AState goalState = domain.getGoalState();
 
         queue = getStruct();
-//        queue.add(startState);
 
 
         // inserting the start state's successors
@@ -45,26 +44,20 @@ public abstract class ABFS extends ASearchingAlgorithm {
             // adding the state's successors into the stack
             stateSuccessors = domain.getAllPossibleStates(state);
             for (AState newState : stateSuccessors) {
-                if (!newState.isVisited()) {
+                if (newState.notVisited()) {
                     domain.updateVisited(newState);
                     domain.updateParent(newState, state);
-                    newState.setCost(state.getCost() + getCost(domain,newState));
+                    newState.setCost(state.getCost() + getCost(domain, newState));
                     queue.add(newState);
-                }
-                else if(newState.getCost() > state.getCost()+getCost(domain,newState)){
-                    if(!newState.isVisited()){
+                } else if (newState.getCost() > state.getCost() + getCost(domain, newState)) {
+                    if (newState.notVisited()) {
                         domain.updateVisited(newState);
                     }
                     newState.setParent(state);
-                    newState.setCost(state.getCost()+getCost(domain,newState));
+                    newState.setCost(state.getCost() + getCost(domain, newState));
                 }
             }
         }
-
         return null;
     }
-
-    public abstract int getCost(ISearchable domain,AState s);
-
-    public abstract Queue<AState> getStruct();
 }

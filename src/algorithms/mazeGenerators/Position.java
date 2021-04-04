@@ -1,13 +1,11 @@
 package algorithms.mazeGenerators;
 
-import algorithms.search.AState;
 import algorithms.search.MazeState;
 
 public class Position extends MazeState {
 
-    private int row;
-    private int column;
-//    private boolean visited = false;
+    private final int row;
+    private final int column;
 
     public Position(int row, int column) {
         this.row = row;
@@ -16,7 +14,7 @@ public class Position extends MazeState {
 
     @Override
     public String toString() {
-        return "{"+row+","+column+"}";
+        return "{" + row + "," + column + "}";
     }
 
     public int getRowIndex() {
@@ -28,24 +26,12 @@ public class Position extends MazeState {
     }
 
 
-
     @Override
     public boolean equals(Object obj) {
-        Position p = (Position) obj;
-        if(this.getRowIndex()==p.getRowIndex() && this.getColumnIndex()==p.getColumnIndex()){
-            return true;
+        if (getClass() != obj.getClass()) { // TODO: added by intellij's advice
+            return false;
         }
-        return false;
+        Position p = (Position) obj;
+        return this.getRowIndex() == p.getRowIndex() && this.getColumnIndex() == p.getColumnIndex();
     }
-
-//    public boolean isVisited() {
-//        return visited;
-//    }
-
-//    public void setVisited(boolean visited) {
-//        this.visited = true;
-//    }
-
-
-
 }

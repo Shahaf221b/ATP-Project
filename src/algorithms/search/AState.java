@@ -1,11 +1,23 @@
 package algorithms.search;
 
+// TODO: why does it implement this?
 public abstract class AState implements Comparable<AState> {
 
     private boolean visited;
     private AState parent;
     private int costFromStart;
+    private String name;
 
+    /* constructor */
+    public AState() {
+        visited = false;
+    }
+
+    @Override
+    public abstract boolean equals(Object obj);
+
+
+    /* getters and setters */
     public String getName() {
         return name;
     }
@@ -14,22 +26,18 @@ public abstract class AState implements Comparable<AState> {
         this.name = name;
     }
 
-    String name;
-
-    public AState() {
-        visited = false;
-    }
-
     public void setVisited() {
         this.visited = true;
     }
 
-    public boolean isVisited() {
-        return this.visited;
+    // TODO: changed to !this- from is visited to not visited
+    public boolean notVisited() {
+        return !this.visited;
     }
 
-    @Override
-    public abstract boolean equals(Object obj);
+    public AState getParent() {
+        return parent;
+    }
 
     public void setParent(AState s) {
         this.parent = s;
@@ -43,14 +51,8 @@ public abstract class AState implements Comparable<AState> {
         return costFromStart;
     }
 
-    public AState getParent() {
-        return parent;
-    }
-
     @Override
     public int compareTo(AState s) {
-        return (this.getCost()-s.getCost());
+        return (this.getCost() - s.getCost());
     }
-
-
 }

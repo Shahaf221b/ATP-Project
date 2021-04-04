@@ -8,7 +8,7 @@ public class DepthFirstSearch extends ASearchingAlgorithm {
 
     public DepthFirstSearch(){
         this.name = "DepthFirstSearch";
-        this.struct = new Stack<AState>();
+        this.struct = new Stack<>();
         this.solutionArray = new ArrayList<>();
     }
     @Override
@@ -43,21 +43,15 @@ public class DepthFirstSearch extends ASearchingAlgorithm {
             // adding the state's successors into the stack
             stateSuccessors = domain.getAllPossibleStates(state);
             for (AState newState : stateSuccessors) {
-                if (!newState.isVisited()) {
+                if (newState.notVisited()) {
                     domain.updateVisited(newState);
                     domain.updateParent(newState, state);
                     stack.push(newState);
                 }
             }
         }
-
         return null;
     }
-
-
-
-
-
 }
 
 

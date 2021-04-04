@@ -6,7 +6,9 @@ public class Solution {
     private ArrayList<AState> solutionPath;
 
     public Solution(ArrayList<AState> solutionPath)  {
-        this.solutionPath = solutionPath;
+        if (solutionPath != null){
+            this.solutionPath = solutionPath;
+        }
     }
 
     public ArrayList<AState> getSolutionPath(){
