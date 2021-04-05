@@ -8,27 +8,31 @@ import algorithms.search.*;
 import java.util.ArrayList;
 
 public class RunSearchOnMaze {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         IMazeGenerator mg = new MyMazeGenerator();
         Maze maze = mg.generate(1000, 1000);
         SearchableMaze searchableMaze = new SearchableMaze(maze);
         solveProblem(searchableMaze, new BreadthFirstSearch());
-//        solveProblem(searchableMaze, new DepthFirstSearch());
+        solveProblem(searchableMaze, new DepthFirstSearch());
         solveProblem(searchableMaze, new BestFirstSearch());
     }
 
-    private static void solveProblem(ISearchable domain, ISearchingAlgorithm searcher) {
+    private static void solveProblem(ISearchable domain, ISearchingAlgorithm searcher) throws Exception {
 //Solve a searching problem with a searcher
         Solution solution = searcher.solve(domain);
         System.out.println("algorithm -" + searcher.getName() + "nodes evaluated:" + searcher.getNumberOfNodesEvaluated());
 //Printing Solution Path
+
+        /*
         System.out.println("Solution path:");
         ArrayList<AState> solutionPath = solution.getSolutionPath();
-/*
+
         for (int i = 0; i < solutionPath.size(); i++) {
             System.out.println(i + "" + solutionPath.get(i));
         }
-*/
+
+         */
+
 
     }
 }

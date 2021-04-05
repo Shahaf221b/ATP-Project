@@ -3,11 +3,20 @@ package algorithms.mazeGenerators;
 import java.util.ArrayList;
 import java.util.Random;
 
+/**
+ * MyMazeGenerator generates a complex Maze
+ */
 public class MyMazeGenerator extends AMazeGenerator {
 
 
+    /**
+     * creating a complex Maze by using Prim algorithm
+     * @param rows    - define maze rows
+     * @param columns - define maze columns
+     * @return Maze
+     */
     @Override
-    public Maze generate(int rows, int columns) {
+    public Maze generate(int rows, int columns) throws Exception {
         Maze aMaze = new Maze(rows, columns, 1);
         Position endP = getRandomEndPosition(aMaze);
         aMaze.setGoalPosition(endP);
@@ -60,6 +69,12 @@ public class MyMazeGenerator extends AMazeGenerator {
         return false;
     }
 
+    /**
+     * returning a Position that is proper to be a Start position,
+     * by considering the Goal position.
+     * @param aMaze
+     * @return Position
+     */
     private Position getRandomStartPosition(Maze aMaze) {
         Random rand = new Random();
         int col;
@@ -82,6 +97,11 @@ public class MyMazeGenerator extends AMazeGenerator {
     }
 
 
+    /**
+     * @param w
+     * @param aMaze
+     * @return ArrayList of all positions that represent walls and are neighbors of position w.
+     */
     private ArrayList<Position> AllNeighborWalls(Position w, Maze aMaze) {
         ArrayList<Position> arrayList = new ArrayList<>();
         Position a = new Position(w.getRowIndex() - 1, w.getColumnIndex());
@@ -103,7 +123,12 @@ public class MyMazeGenerator extends AMazeGenerator {
         return arrayList;
     }
 
-    private boolean isASeparator(Position w, Maze aMaze) {
+    /**
+     * @param w
+     * @param aMaze
+     * @return true if position w separates between al wall and a path cell, else returns false.
+     */
+    private boolean isASeparator(Position w, Maze aMaze)  {
         Position a = new Position(w.getRowIndex() - 1, w.getColumnIndex());
         Position b = new Position(w.getRowIndex() + 1, w.getColumnIndex());
         if (aMaze.getCellValue(a) == 1 && aMaze.getCellValue(b) == 0 || aMaze.getCellValue(a) == 0 && aMaze.getCellValue(b) == 1) {
@@ -114,7 +139,11 @@ public class MyMazeGenerator extends AMazeGenerator {
         return aMaze.getCellValue(c) == 1 && aMaze.getCellValue(d) == 0 || aMaze.getCellValue(c) == 0 && aMaze.getCellValue(d) == 1;
     }
 
-    private Position getRandomEndPosition(Maze aMaze) {
+    /**
+     * @param aMaze
+     * @return Goal Position
+     */
+    private Position getRandomEndPosition(Maze aMaze){
         Random rand = new Random();
         int col;
         int row = rand.nextInt(aMaze.getRows());

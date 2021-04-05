@@ -1,28 +1,55 @@
 
 package algorithms.mazeGenerators;
 
+import algorithms.search.MazeState;
+
 import java.util.Arrays;
 
+/**
+ * A maze object.
+ */
 public class Maze {
     private final int rows;
     private final int columns;
     private final int[][] m_maze;
     private Position startPosition;
     private Position goalPosition;
-    private final Position[][] positions;
+    private final MazeState[][] mazeStates;
 
-    public Maze(int rows, int columns) {
+    /**
+     * Constructor of a maze object.
+     * all cells are initialized to 0.
+     * throws an Exception if given parameters are negative.
+     *
+     * @param rows    define maze rows
+     * @param columns define maze columns
+     */
+    public Maze(int rows, int columns) throws Exception {
+        if (rows < 0 || columns < 0) {
+            throw new Exception("Maze rows and columns should be non negative numbers.");
+        }
         this.rows = rows;
         this.columns = columns;
         this.m_maze = new int[rows][columns];
-        positions = new Position[rows][columns];
+        this.mazeStates = new MazeState[rows][columns];
     }
 
-    public Maze(int rows, int columns, int val) {
+    /**
+     * Constructor of a Maze that sets all cells to given number
+     * throws an Exception if given parameters rows and columns are negative.
+     *
+     * @param rows
+     * @param columns
+     * @param val     - the val to set in all cells
+     */
+    public Maze(int rows, int columns, int val) throws Exception {
+        if (rows < 0 || columns < 0) {
+            throw new Exception("Maze rows and columns should be non negative numbers.");
+        }
         this.rows = rows;
         this.columns = columns;
         this.m_maze = new int[rows][columns];
-        positions = new Position[rows][columns];
+        this.mazeStates = new MazeState[rows][columns];
         for (int i = 0; i < rows; i++) {
             Arrays.fill(m_maze[i], val);
         }
@@ -37,12 +64,24 @@ public class Maze {
         return columns;
     }
 
+    /**
+     * set cell in maze presented by position to a given value
+     *
+     * @param p   - position to set
+     * @param val
+     */
     public void setCell(Position p, int val) {
         if (p.getRowIndex() < rows && p.getColumnIndex() < columns) {
             m_maze[p.getRowIndex()][p.getColumnIndex()] = val;
         }
     }
 
+    /**
+     * get cell value that is presented by position p
+     *
+     * @param p
+     * @return
+     */
     public int getCellValue(Position p) {
         int rowIndex = p.getRowIndex();
         int colIndex = p.getColumnIndex();
@@ -52,18 +91,23 @@ public class Maze {
         return -1;
     }
 
-    public Position getPositions(int row, int column) {
-        return positions[row][column];
+
+    public MazeState getMazeState(int row, int column) {
+        return mazeStates[row][column];
     }
 
-    public void setPositions(int row, int column, Position position) {
-        positions[row][column] = position;
+    public void setMazeState(MazeState ms) {
+        int row = ms.getPosition().getRowIndex();
+        int column = ms.getPosition().getColumnIndex();
+        mazeStates[row][column] = ms;
     }
 
 
     /* Position's functions */
-    public void updatePosition(int row, int column, Position p) {
-        positions[row][column] = p;
+    public void updateMazeState(MazeState ms) {
+        int row = ms.getPosition().getRowIndex();
+        int column = ms.getPosition().getColumnIndex();
+        mazeStates[row][column] = ms;
     }
 
     public Position getStartPosition() {
@@ -74,12 +118,12 @@ public class Maze {
         return goalPosition;
     }
 
-    public void setStartPosition(Position startPosition) {
-        this.startPosition = startPosition;
+    public void setStartPosition(Position p) {
+        this.startPosition = p;
     }
 
-    public void setGoalPosition(Position goalPosition) {
-        this.goalPosition = goalPosition;
+    public void setGoalPosition(Position p) {
+        this.goalPosition = p;
     }
 
 

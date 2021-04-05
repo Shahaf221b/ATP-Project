@@ -8,7 +8,7 @@ public abstract class ASearchingAlgorithm implements ISearchingAlgorithm {
     protected Collection<AState> struct;
     protected ArrayList<AState> solutionArray;
 
-    public long measureAlgorithmTimeMillis(ISearchable domain) {
+    public long measureAlgorithmTimeMillis(ISearchable domain) throws Exception {
         long aTime = System.currentTimeMillis();
         solve(domain);
         long bTime = System.currentTimeMillis();
@@ -16,7 +16,7 @@ public abstract class ASearchingAlgorithm implements ISearchingAlgorithm {
     }
 
     @Override
-    public abstract Solution solve(ISearchable domain);
+    public abstract Solution solve(ISearchable domain) throws Exception;
 
     @Override
     public String getName() {

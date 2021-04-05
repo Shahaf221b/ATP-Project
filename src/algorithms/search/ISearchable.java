@@ -6,9 +6,9 @@ public interface ISearchable {
 
     AState getStartState();
     AState getGoalState();
-    ArrayList<AState> getAllPossibleStates(AState s);
+    ArrayList<AState> getAllSuccessors(AState s);
     int getCost(AState state); //
-    void initAllStates();
+    void initAllStates() throws Exception;
     void updateVisited(AState s);
     void updateParent(AState s, AState parent);
 

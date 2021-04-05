@@ -12,7 +12,7 @@ public abstract class Abfs extends ASearchingAlgorithm {
     public abstract Queue<AState> getStruct();
 
     @Override
-    public Solution solve(ISearchable domain) {
+    public Solution solve(ISearchable domain) throws Exception {
 
         domain.initAllStates();
         this.solutionArray = new ArrayList<>();
@@ -21,7 +21,7 @@ public abstract class Abfs extends ASearchingAlgorithm {
         domain.updateVisited(startState);
         startState.setCost(0);
 
-        ArrayList<AState> stateSuccessors = domain.getAllPossibleStates(startState);
+        ArrayList<AState> stateSuccessors = domain.getAllSuccessors(startState);
         AState goalState = domain.getGoalState();
 
         queue = getStruct();
@@ -39,10 +39,13 @@ public abstract class Abfs extends ASearchingAlgorithm {
             AState state = queue.remove();
             if (state.equals(goalState)) {
                 solutionArray = getPathFromParents(state);
+                if(solutionArray==null || solutionArray.size()==0){
+                    throw new Exception("BFS algorithm could not solve the given maze");
+                }
                 return new Solution(solutionArray);
             }
             // adding the state's successors into the stack
-            stateSuccessors = domain.getAllPossibleStates(state);
+            stateSuccessors = domain.getAllSuccessors(state);
             for (AState newState : stateSuccessors) {
                 if (newState.notVisited()) {
                     domain.updateVisited(newState);

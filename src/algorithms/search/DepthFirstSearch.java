@@ -12,14 +12,14 @@ public class DepthFirstSearch extends ASearchingAlgorithm {
         this.solutionArray = new ArrayList<>();
     }
     @Override
-    public Solution solve(ISearchable domain) {
+    public Solution solve(ISearchable domain) throws Exception {
 
         domain.initAllStates();
 
         AState startState = domain.getStartState();
         domain.updateVisited(startState);
 
-        ArrayList<AState> stateSuccessors = domain.getAllPossibleStates(startState);
+        ArrayList<AState> stateSuccessors = domain.getAllSuccessors(startState);
         Stack<AState> stack = (Stack<AState>) this.struct;
         AState goalState = domain.getGoalState();
 
@@ -37,11 +37,14 @@ public class DepthFirstSearch extends ASearchingAlgorithm {
             AState state = stack.pop();
             if (state.equals(goalState)) {
                 solutionArray = getPathFromParents(state);
+                if(solutionArray==null || solutionArray.size()==0){
+                    throw new Exception("DepthFirstSearch algorithm could not solve the given maze");
+                }
                 return new Solution(solutionArray);
 
             }
             // adding the state's successors into the stack
-            stateSuccessors = domain.getAllPossibleStates(state);
+            stateSuccessors = domain.getAllSuccessors(state);
             for (AState newState : stateSuccessors) {
                 if (newState.notVisited()) {
                     domain.updateVisited(newState);

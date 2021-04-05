@@ -1,8 +1,6 @@
 package algorithms.mazeGenerators;
 
-import algorithms.search.MazeState;
-
-public class Position extends MazeState {
+public class Position {
 
     private final int row;
     private final int column;
@@ -25,13 +23,4 @@ public class Position extends MazeState {
         return column;
     }
 
-
-    @Override
-    public boolean equals(Object obj) {
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        Position p = (Position) obj;
-        return this.getRowIndex() == p.getRowIndex() && this.getColumnIndex() == p.getColumnIndex();
-    }
 }

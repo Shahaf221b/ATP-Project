@@ -11,23 +11,30 @@ public class SearchableMaze implements ISearchable {
     private final Maze myMaze;
 
     /* constructor */
-    public SearchableMaze(Maze maze) {
+    public SearchableMaze(Maze maze) throws Exception {
+        if(maze == null){
+            throw new Exception("given maze is null");
+        }
         this.myMaze = maze;
     }
 
     /* getters and setters */
     @Override
     public AState getStartState() {
-        return myMaze.getStartPosition();
+        int row = myMaze.getStartPosition().getRowIndex();
+        int column = myMaze.getStartPosition().getColumnIndex();
+        return myMaze.getMazeState(row, column);
     }
 
     @Override
     public AState getGoalState() {
-        return myMaze.getGoalPosition();
+        int row = myMaze.getGoalPosition().getRowIndex();
+        int column = myMaze.getGoalPosition().getColumnIndex();
+        return myMaze.getMazeState(row, column);
     }
 
-    public void setPosition(Position p) {
-        myMaze.setPositions(p.getRowIndex(), p.getColumnIndex(), p);
+    public void setMazeState(MazeState ms) {
+        myMaze.setMazeState(ms);
     }
 
     @Override
@@ -36,36 +43,25 @@ public class SearchableMaze implements ISearchable {
         int column = myMaze.getColumns();
         for (int i = 0; i < row; i++) {
             for (int j = 0; j < column; j++) {
-                Position newP = new Position(i, j);
-                setPosition(newP);
+                setMazeState(new MazeState(i, j));
             }
         }
     }
 
     @Override
     public void updateVisited(AState s) {
-        Position p = (Position) s;
-        p.setVisited();
-        int row = p.getRowIndex();
-        int column = p.getColumnIndex();
-        myMaze.updatePosition(row, column, p);
+        MazeState ms = (MazeState) s;
+        ms.setVisited();
+        myMaze.updateMazeState(ms);
     }
 
     @Override
-    public void updateParent(AState s, AState Sparent) {
-        Position p = (Position) s;
-        Position parent = (Position) Sparent;
-        p.setParent(parent);
-        int row = p.getRowIndex();
-        int column = p.getColumnIndex();
-        myMaze.updatePosition(row, column, p);
-
+    public void updateParent(AState s, AState MsParent) {
+        MazeState ms = (MazeState) s;
+        MazeState parent = (MazeState) MsParent;
+        ms.setParent(parent);
+        myMaze.updateMazeState(ms);
     }
-
-    public void PRINT() {
-        myMaze.print();
-    }
-
 
     public int getCost(AState state) {
         String name = state.getName();
@@ -76,8 +72,8 @@ public class SearchableMaze implements ISearchable {
     }
 
     @Override
-    public ArrayList<AState> getAllPossibleStates(AState s) {
-        Position p = (Position) s;
+    public ArrayList<AState> getAllSuccessors(AState s) {
+        Position p = ((MazeState) s).getPosition();
         return getAllPossibleMoves(p);
     }
 
@@ -93,11 +89,15 @@ public class SearchableMaze implements ISearchable {
         for (int i = 0; i < 4; i++) {
             x = x_values[i];
             y = y_values[i];
+            // checking if the position is in range of the mazw
             if (x >= 0 && x < myMaze.getRows() && y >= 0 && y < myMaze.getColumns()) {
-                Position newP = myMaze.getPositions(x, y);
+                // checking the value of the cell
+                Position newP = myMaze.getMazeState(x, y).getPosition();
                 if (myMaze.getCellValue(newP) == 0) {
-                    pSet.add(newP);
-                    newP.setName("Sides");
+                    // adding the mazeState to the set
+                    MazeState newMS = myMaze.getMazeState(x, y);
+                    pSet.add(newMS);
+                    newMS.setName("Sides");
                     path[i] = true;
                 }
             }
@@ -112,11 +112,12 @@ public class SearchableMaze implements ISearchable {
             x = diagonal_x[j];
             y = diagonal_y[j];
             if (x >= 0 && x < myMaze.getRows() && y >= 0 && y < myMaze.getColumns()) {
-                Position newP = myMaze.getPositions(x, y);
+                Position newP = myMaze.getMazeState(x, y).getPosition();
                 if (myMaze.getCellValue(newP) == 0) {
                     if (path[val_1] || path[val_2]) {
-                        newP.setName("Diagonal");
-                        pSet.add(newP);
+                        MazeState newMS = myMaze.getMazeState(x, y);
+                        newMS.setName("Diagonal");
+                        pSet.add(newMS);
                     }
                 }
             }

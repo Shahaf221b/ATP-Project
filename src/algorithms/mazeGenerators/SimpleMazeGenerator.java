@@ -2,10 +2,13 @@ package algorithms.mazeGenerators;
 
 import java.util.Random;
 
+/**
+ * SimpleMazeGenerator generates a simple maze
+ */
 public class SimpleMazeGenerator extends AMazeGenerator {
 
     @Override
-    public Maze generate(int rows, int columns) {
+    public Maze generate(int rows, int columns) throws Exception {
         Maze aMaze = new Maze(rows, columns);
         Random rand = new Random();
         if (rows > 0 && columns > 0) {
