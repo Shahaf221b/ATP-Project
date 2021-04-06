@@ -11,7 +11,7 @@ public class RunMaze3DGenerator {
     public  static void main(String[] args){
         IMazeGenerator3D img3 = new MyMaze3DGenerator();
         long aTime = System.currentTimeMillis();
-        Maze3D m = img3.generate(100,100,100);
+        Maze3D m = img3.generate(50,50,50);
         System.out.println("3d Maze: ");
         m.print3D();
         long bTime = System.currentTimeMillis();

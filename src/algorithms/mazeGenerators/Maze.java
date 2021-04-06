@@ -134,7 +134,7 @@ public class Maze {
     }
 
 
-
+    // TODO: check the right way to print
     public void print() {
         int rowS = startPosition.getRowIndex();
         int colS = startPosition.getColumnIndex();
