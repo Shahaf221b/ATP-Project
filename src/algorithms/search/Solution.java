@@ -3,12 +3,13 @@ import java.util.ArrayList;
 
 public class Solution {
 
-    private ArrayList<AState> solutionPath;
+    private final ArrayList<AState> solutionPath;
 
-    public Solution(ArrayList<AState> solutionPath)  {
-        if (solutionPath != null){
-            this.solutionPath = solutionPath;
+    public Solution(ArrayList<AState> solutionPath) throws Exception {
+        if (solutionPath == null){
+            throw new Exception("there's no solution");
         }
+        this.solutionPath = solutionPath;
     }
 
     public ArrayList<AState> getSolutionPath(){

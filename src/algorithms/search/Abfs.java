@@ -13,6 +13,8 @@ public abstract class Abfs extends ASearchingAlgorithm {
 
     @Override
     public Solution solve(ISearchable domain) throws Exception {
+        if (domain == null)
+            throw new NullPointerException("Domain Can't be null");
 
         domain.initAllStates();
         this.solutionArray = new ArrayList<>();
@@ -25,7 +27,6 @@ public abstract class Abfs extends ASearchingAlgorithm {
         AState goalState = domain.getGoalState();
 
         queue = getStruct();
-
 
         // inserting the start state's successors
         for (AState state : stateSuccessors) {
@@ -61,6 +62,7 @@ public abstract class Abfs extends ASearchingAlgorithm {
                 }
             }
         }
-        return null;
+
+        throw new Exception("no solution was found");
     }
 }

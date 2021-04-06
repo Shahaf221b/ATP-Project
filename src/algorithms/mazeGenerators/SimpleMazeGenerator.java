@@ -9,7 +9,14 @@ public class SimpleMazeGenerator extends AMazeGenerator {
 
     @Override
     public Maze generate(int rows, int columns) throws Exception {
-        Maze aMaze = new Maze(rows, columns);
+        Maze aMaze = null;
+        try {
+            aMaze = new Maze(rows, columns);
+        } catch (Exception e) {
+            System.out.printf(e.getMessage());
+        }
+        if(aMaze == null)
+            return null;
         Random rand = new Random();
         if (rows > 0 && columns > 0) {
             aMaze.setGoalPosition(new Position(rows - 1, columns - 1));
