@@ -26,11 +26,11 @@ public class MyMaze3DGenerator extends AMaze3DGenerator {
         int minV = Math.min(depth,Math.min(row,column));
         int maxV = Math.max(depth,Math.max(row,column));
 
-        for (int i = 0; i < maxV; i++) {
-            Position3D p = getRandomPosition3D(aMaze);
-            aMaze.setCell(p, 0);
-            p=null;
-        }
+//        for (int i = 0; i < maxV; i++) {
+//            Position3D p = getRandomPosition3D(aMaze);
+//            aMaze.setCell(p, 0);
+//            p=null;
+//        }
 
         Set<Maze3DState> allWalls = new HashSet<>();
 //        ArrayList<Position3D> allWalls ;
@@ -46,7 +46,7 @@ public class MyMaze3DGenerator extends AMaze3DGenerator {
 
 
 //        while(allWalls.size()>0){
-        while (it.hasNext() && allWalls.size()<maxV*minV ) { //&& allWalls.size()<maxV*maxV/minV
+        while (it.hasNext() && allWalls.size()<maxV*maxV) { //&& allWalls.size()<maxV*maxV/minV
 //            i = rand.nextInt(allWalls.size());
 //            w = allWalls.get(i);
 //            w = it.next();
@@ -59,7 +59,7 @@ public class MyMaze3DGenerator extends AMaze3DGenerator {
                 allNwalls =AllNeighborWalls(w, aMaze);
                 if (allNwalls.size() >= 2 || isNeighbor(w, startMS, aMaze)) {
                     aMaze.setCell(wP, 0);
-                    randDim = rand.nextInt(maxV*2);
+                    randDim = rand.nextInt(depth*3);
                     if(randDim<depth){
  //                       aMaze.setCell(new Position3D(randDim,wP.getRowIndex(),wP.getColumnIndex()), 0);
                         aMaze.changeVal(randDim,wP.getRowIndex(),wP.getColumnIndex(), 0);
@@ -75,7 +75,7 @@ public class MyMaze3DGenerator extends AMaze3DGenerator {
 //            }
 
            if(wP.getRowIndex()>=0){
-
+               allWalls.removeAll(toRemove);
                toRemove.remove(0);
                it = allWalls.iterator();
             }
