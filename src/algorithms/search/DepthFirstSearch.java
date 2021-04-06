@@ -53,7 +53,7 @@ public class DepthFirstSearch extends ASearchingAlgorithm {
                 }
             }
         }
-        return null;
+        throw new Exception("no solution was found");
     }
 }
 
