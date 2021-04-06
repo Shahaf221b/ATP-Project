@@ -34,14 +34,14 @@ class BestFirstSearchTest {
 
     @Test
     public void noSolution() throws Exception {
-         IMazeGenerator mg = new EmptyMazeGenerator();
-         Maze maze = mg.generate(5,5);
-         for (int i = 0; i < 5; i++){
-             for (int j = 0; j < 5; j++) {
-                 Position p = new Position(i, j);
-                 maze.setCell(p, 1);
-             }
-         }
+        IMazeGenerator mg = new EmptyMazeGenerator();
+        Maze maze = mg.generate(5,5);
+        for (int i = 0; i < 5; i++){
+            for (int j = 0; j < 5; j++) {
+                Position p = new Position(i, j);
+                maze.setCell(p, 1);
+            }
+        }
 
 
         SearchableMaze searchableMaze = new SearchableMaze(maze);
