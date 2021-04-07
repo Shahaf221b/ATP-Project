@@ -31,7 +31,7 @@ public class MyMaze3DGenerator extends AMaze3DGenerator{
         boolean extra = false;
         MazeState ms;
         if(num != 0){extra =true;};
-        int unit = depth/(sSize-1); //TODO:(sSize-1)/depth
+        int unit = depth/(sSize-1); //TODO:(sSize-1)/depth?
         int border = unit, j=1,i;
         for(i=0; i<depth; i++){
             while(j<=border){
