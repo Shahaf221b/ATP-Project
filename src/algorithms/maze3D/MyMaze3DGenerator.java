@@ -31,7 +31,7 @@ public class MyMaze3DGenerator extends AMaze3DGenerator{
         boolean extra = false;
         MazeState ms;
         if(num != 0){extra =true;};
-        int unit = depth/(sSize-1); //TODO:(sSize-1)/depth
+        int unit = (sSize-1)/depth; //TODO: depth/(sSize-1)
         int border = unit, j=1,i;
         for(i=0; i<depth; i++){
             while(j<=border){
@@ -80,7 +80,7 @@ public class MyMaze3DGenerator extends AMaze3DGenerator{
         aMaze.setGoalPosition(new Position3D(depth-1,endp.getRowIndex(),endp.getColumnIndex()));
 
         Random rand = new Random();
-        int numOfPaths=(row*column)/4,a,b;
+        int numOfPaths=(row*column)/depth,a,b;
         for(i=0; i<depth; i++){
             for(j=0; j<numOfPaths; j++){
                 a = rand.nextInt(row);
@@ -88,6 +88,9 @@ public class MyMaze3DGenerator extends AMaze3DGenerator{
 //                aMaze.setCell(new Position3D(i,a,b),0);
                 aMaze.changeVal(i,a,b,0);
             }
+        }
+        if(AllNeighborPaths(aMaze.getStartPosition(),aMaze )==0){
+            generate(depth, row, column);
         }
         return aMaze;
     }
@@ -249,37 +252,32 @@ public class MyMaze3DGenerator extends AMaze3DGenerator{
         return arrayList;
     }
 */
-    /*
-    private ArrayList<Position3D> AllNeighborPaths(Position3D w, Maze3D aMaze) {
-        ArrayList<Position3D> arrayList = new ArrayList<Position3D>();
+
+    private int AllNeighborPaths(Position3D w, Maze3D aMaze) {
+        int ans =0;
         int row = w.getRowIndex();
         int col = w.getColumnIndex();
         int dim = w.getDepthIndex();
         for(int i=0; i<aMaze.getDepth(); i++){
-            Position3D p = new Position3D(i,row,col);
-            if(aMaze.getCellValue(p)==0 || i==dim){
-                Position3D a = new Position3D(i,row-1, col);
-                if(aMaze.getCellValue(a)==0){
-                    arrayList.add(a);
+            if(aMaze.getVal(i,row,col)==0 || i==dim){
+                if(aMaze.getVal(i,row-1, col)==0){
+                    ans++;
                 }
-                Position3D b = new Position3D(i,row+1, col);
-                if(aMaze.getCellValue(b)==0){
-                    arrayList.add(b);
+                if(aMaze.getVal(i,row+1, col)==0){
+                    ans++;
                 }
-                Position3D c = new Position3D(i,row, col-1);
-                if(aMaze.getCellValue(c)==0){
-                    arrayList.add(c);
+                if(aMaze.getVal(i,row, col-1)==0){
+                    ans++;
                 }
-                Position3D d = new Position3D(i,row, col+1);
-                if(aMaze.getCellValue(d)==0){
-                    arrayList.add(d);
+                if(aMaze.getVal(i,row, col+1)==0){
+                    ans++;
                 }
             }
         }
 
-        return arrayList;
+        return ans;
     }
-*/
+
     /*
     private boolean isASeparator(Position3D w,Maze3D aMaze) {
         int dim = w.getDepthIndex();
