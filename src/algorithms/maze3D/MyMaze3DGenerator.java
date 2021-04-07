@@ -31,7 +31,7 @@ public class MyMaze3DGenerator extends AMaze3DGenerator{
         boolean extra = false;
         MazeState ms;
         if(num != 0){extra =true;};
-        int unit = depth/(sSize-1); //TODO:(sSize-1)/depth?
+        int unit = depth/(sSize-1); //TODO:(sSize-1)/depth
         int border = unit, j=1,i;
         for(i=0; i<depth; i++){
             while(j<=border){
@@ -40,9 +40,9 @@ public class MyMaze3DGenerator extends AMaze3DGenerator{
                 Position3D newp = new Position3D(i,p.getRowIndex(),p.getColumnIndex());
                 aMaze.setCell(newp,0);
                 newp = null;
-               if(isDiagonalMove(ms)){
+                if(isDiagonalMove(ms)){
 //                   aMaze.setCell(new Position3D(i,newPosition.getRowIndex(),newPosition.getColumnIndex()),0);
-                   fromDiagonalToSideHelper(ms,m,aMaze,i);
+                    fromDiagonalToSideHelper(ms,m,aMaze,i);
                 }
                 try{
                     ms = (MazeState) solutionPath.get(j+1);
