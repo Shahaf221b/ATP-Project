@@ -15,7 +15,7 @@ public class RunSearchOnMaze3D {
     public static void main(String[] args) throws Exception {
         IMazeGenerator3D img3 = new MyMaze3DGenerator();
 //        Maze3D m = img3.generate(500,500,500);
-        Maze3D m = img3.generate(100,100,100);
+        Maze3D m = img3.generate(5,5,5);
 
         SearchableMaze3D searchableMaze = new SearchableMaze3D(m);
         solveProblem(searchableMaze, new BreadthFirstSearch());

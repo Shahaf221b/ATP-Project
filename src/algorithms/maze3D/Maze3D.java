@@ -137,8 +137,7 @@ public class Maze3D {
         m_maze[depth][row][columns] = val;
     }
 
-    public int getCellValue(Maze3DState ms){
-        Position3D p = ms.getPosition();
+    public int getCellValue(Position3D p){
         int dim = p.getDepthIndex();
         int row = p.getRowIndex();
         int col = p.getColumnIndex();

@@ -62,7 +62,7 @@ public class SearchableMaze3D implements ISearchable {
             Maze3DState newP = myMaze3D.getMaze3DState(j, pX, pY);
             if(newP != null){
                 if (j != pZ){
-                    if (myMaze3D.getCellValue(newP) == 0){
+                    if (myMaze3D.getCellValue(newP.getPosition()) == 0){
                         pSet.add(newP);
                     }
                 }
@@ -78,7 +78,7 @@ public class SearchableMaze3D implements ISearchable {
             if (x >= 0 && x < myMaze3D.getRows() && y >= 0 && y < myMaze3D.getColumns()) {
                 Maze3DState newP = myMaze3D.getMaze3DState(pZ, x, y);
                 if(newP != null){
-                    if (myMaze3D.getCellValue(newP) == 0){
+                    if (myMaze3D.getCellValue(newP.getPosition()) == 0){
                         pSet.add(newP);
                     }
                 }
