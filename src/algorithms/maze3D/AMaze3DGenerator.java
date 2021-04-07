@@ -2,10 +2,10 @@ package algorithms.maze3D;
 
 public abstract class AMaze3DGenerator implements IMazeGenerator3D {
     @Override
-    public abstract Maze3D generate(int depth, int row, int column);
+    public abstract Maze3D generate(int depth, int row, int column) throws Exception;
 
     @Override
-    public long measureAlgorithmTimeMillis(int depth, int row, int column) {
+    public long measureAlgorithmTimeMillis(int depth, int row, int column) throws Exception {
         long aTime = System.currentTimeMillis();
         generate(depth,row,column);
         long bTime = System.currentTimeMillis();

@@ -19,8 +19,8 @@ public class RunSearchOnMaze3D {
 
         SearchableMaze3D searchableMaze = new SearchableMaze3D(m);
         solveProblem(searchableMaze, new BreadthFirstSearch());
-//        solveProblem(searchableMaze, new DepthFirstSearch());
-//        solveProblem(searchableMaze, new BestFirstSearch());
+        solveProblem(searchableMaze, new DepthFirstSearch());
+        solveProblem(searchableMaze, new BestFirstSearch());
     }
     private static void solveProblem(ISearchable domain, ISearchingAlgorithm
             searcher) throws Exception {
@@ -33,11 +33,11 @@ public class RunSearchOnMaze3D {
         long bTime = System.currentTimeMillis();
         System.out.println("total time: ");
         System.out.println(bTime-aTime);
-        System.out.println("Solution path:");
-        ArrayList<AState> solutionPath = solution.getSolutionPath();
-        for (int i = 0; i < solutionPath.size(); i++) {
-            System.out.println(String.format("%s. %s",i,solutionPath.get(i)));
-        }
+//        System.out.println("Solution path:");
+//        ArrayList<AState> solutionPath = solution.getSolutionPath();
+//        for (int i = 0; i < solutionPath.size(); i++) {
+//            System.out.println(String.format("%s. %s",i,solutionPath.get(i)));
+//        }
 //        SearchableMaze3D m = (SearchableMaze3D) domain;
 //        m.PRINT();
     }

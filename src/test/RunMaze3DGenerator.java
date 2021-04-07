@@ -8,7 +8,7 @@ import java.util.Random;
 
 public class RunMaze3DGenerator {
 
-    public  static void main(String[] args){
+    public  static void main(String[] args) throws Exception {
         IMazeGenerator3D img3 = new MyMaze3DGenerator();
         long aTime = System.currentTimeMillis();
         Maze3D m = img3.generate(100,100,100);
