@@ -1,11 +1,7 @@
 package algorithms.maze3D;
 
-import algorithms.maze3D.Maze3D;
-import algorithms.maze3D.Position3D;
-import algorithms.mazeGenerators.Position;
 import algorithms.search.AState;
 import algorithms.search.ISearchable;
-import algorithms.search.MazeState;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -16,7 +12,7 @@ public class SearchableMaze3D implements ISearchable {
     private Maze3D myMaze3D;
 
     public SearchableMaze3D(Maze3D maze3D) {
-        if(maze3D != null){
+        if (maze3D != null) {
             myMaze3D = maze3D;
         }
     }
@@ -27,7 +23,7 @@ public class SearchableMaze3D implements ISearchable {
         int depth = p.getDepthIndex();
         int row = p.getRowIndex();
         int column = p.getColumnIndex();
-        return myMaze3D.getMaze3DState(depth,row, column);
+        return myMaze3D.getMaze3DState(depth, row, column);
     }
 
     @Override
@@ -36,14 +32,8 @@ public class SearchableMaze3D implements ISearchable {
         int depth = p.getDepthIndex();
         int row = p.getRowIndex();
         int column = p.getColumnIndex();
-        return myMaze3D.getMaze3DState(depth,row, column);
+        return myMaze3D.getMaze3DState(depth, row, column);
     }
-
-    /*
-    @Override
-    public boolean isGoalState(AState state) {
-        return myMaze3D.getGoalPosition().equals(state);
-    } */
 
     @Override
     public ArrayList<AState> getAllSuccessors(AState s) {
@@ -58,11 +48,11 @@ public class SearchableMaze3D implements ISearchable {
 
         // other dimensions
         int dim = myMaze3D.getDepth();
-        for (int j = 0; j < dim; j ++){
+        for (int j = 0; j < dim; j++) {
             Maze3DState newP = myMaze3D.getMaze3DState(j, pX, pY);
-            if(newP != null){
-                if (j != pZ){
-                    if (myMaze3D.getCellValue(newP.getPosition()) == 0){
+            if (newP != null) {
+                if (j != pZ) {
+                    if (myMaze3D.getCellValue(newP.getPosition()) == 0) {
                         pSet.add(newP);
                     }
                 }
@@ -71,14 +61,14 @@ public class SearchableMaze3D implements ISearchable {
         }
 
         // sides
-        int x,y;
+        int x, y;
         for (int i = 0; i < 4; i++) {
             x = x_values[i];
             y = y_values[i];
             if (x >= 0 && x < myMaze3D.getRows() && y >= 0 && y < myMaze3D.getColumns()) {
                 Maze3DState newP = myMaze3D.getMaze3DState(pZ, x, y);
-                if(newP != null){
-                    if (myMaze3D.getCellValue(newP.getPosition()) == 0){
+                if (newP != null) {
+                    if (myMaze3D.getCellValue(newP.getPosition()) == 0) {
                         pSet.add(newP);
                     }
                 }
@@ -102,12 +92,12 @@ public class SearchableMaze3D implements ISearchable {
         int row = myMaze3D.getRows();
         int column = myMaze3D.getColumns();
         int[][][] matrix = myMaze3D.getMap();
-        for (int i = 0; i < dim; i ++){
-            for (int j = 0; j < row; j ++){
+        for (int i = 0; i < dim; i++) {
+            for (int j = 0; j < row; j++) {
                 for (int z = 0; z < column; z++) {
                     // TODO: CHANGE TO ARRAY OF O AND 1. 0- NOT VISITED, 1- VISITED
-                    if(matrix[i][j][z]==0){
-                        Maze3DState newP = new Maze3DState(i,j,z);
+                    if (matrix[i][j][z] == 0) {
+                        Maze3DState newP = new Maze3DState(i, j, z);
                         setMaze3DState(newP);
                     }
                 }
@@ -134,24 +124,6 @@ public class SearchableMaze3D implements ISearchable {
         myMaze3D.setMaze3DState(ms);
     }
 
-    /*
-    @Override
-    public void setState(AState state) {
-        Position3D p = (Position3D)state;
-        setPosition(p);
-    } */
-
-/*
-    public void changeVal(AState state) {
-        Position3D p = (Position3D) state;
-        myMaze3D.changeVal(p.getDepthIndex(), p.getRowIndex(), p.getColumnIndex());
-    } */
-
-    /*
-    @Override
-    public ArrayList<AState> getAllPossibleStatesNoDiagonal(AState startState) {
-        return null;
-    } */
 
     public void PRINT() {
         myMaze3D.print3D();

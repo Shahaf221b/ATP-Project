@@ -12,7 +12,7 @@ public class SearchableMaze implements ISearchable {
 
     /* constructor */
     public SearchableMaze(Maze maze) throws Exception {
-        if(maze == null){
+        if (maze == null) {
             throw new Exception("given maze is null");
         }
         this.myMaze = maze;

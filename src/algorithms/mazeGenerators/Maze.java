@@ -1,4 +1,3 @@
-
 package algorithms.mazeGenerators;
 
 import algorithms.search.MazeState;
@@ -27,8 +26,7 @@ public class Maze {
     public Maze(int rows, int columns) throws Exception {
         if (rows < 0 || columns < 0) {
             throw new Exception("Maze rows and columns should be non negative numbers.");
-        }
-        else if (rows == 1 || columns == 1){
+        } else if (rows == 1 || columns == 1) {
             throw new Exception("there need to be at least 2 rows and columns");
         }
         this.rows = rows;
@@ -41,15 +39,14 @@ public class Maze {
      * Constructor of a Maze that sets all cells to given number
      * throws an Exception if given parameters rows and columns are negative.
      *
-     * @param rows- number of rows
+     * @param rows-    number of rows
      * @param columns- number of columns
-     * @param val     - the val to set in all cells
+     * @param val      - the val to set in all cells
      */
     public Maze(int rows, int columns, int val) throws Exception {
         if (rows < 0 || columns < 0) {
             throw new Exception("Maze rows and columns should be non negative numbers.");
-        }
-        else if (rows == 1 || columns == 1){
+        } else if (rows == 1 || columns == 1) {
             throw new Exception("there need to be at least 2 rows and columns");
         }
         this.rows = rows;
@@ -78,7 +75,7 @@ public class Maze {
      */
     public void setCell(Position p, int val) throws Exception {
         if (p.getRowIndex() < rows && p.getColumnIndex() < columns) {
-            if (!(val == 0 || val == 1)){
+            if (!(val == 0 || val == 1)) {
                 throw new Exception("cell value must be 0 or 1");
             }
             m_maze[p.getRowIndex()][p.getColumnIndex()] = val;
@@ -134,7 +131,6 @@ public class Maze {
     }
 
 
-    // TODO: check the right way to print
     public void print() {
         int rowS = startPosition.getRowIndex();
         int colS = startPosition.getColumnIndex();

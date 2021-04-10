@@ -40,7 +40,7 @@ public abstract class Abfs extends ASearchingAlgorithm {
             AState state = queue.remove();
             if (state.equals(goalState)) {
                 solutionArray = getPathFromParents(state);
-                if(solutionArray==null || solutionArray.size()==0){
+                if (solutionArray == null || solutionArray.size() == 0) {
                     throw new Exception("BFS algorithm could not solve the given maze");
                 }
                 return new Solution(solutionArray);

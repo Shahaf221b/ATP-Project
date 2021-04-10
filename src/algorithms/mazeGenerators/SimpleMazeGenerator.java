@@ -15,7 +15,7 @@ public class SimpleMazeGenerator extends AMazeGenerator {
         } catch (Exception e) {
             System.out.printf(e.getMessage());
         }
-        if(aMaze == null)
+        if (aMaze == null)
             return null;
         Random rand = new Random();
         if (rows > 0 && columns > 0) {

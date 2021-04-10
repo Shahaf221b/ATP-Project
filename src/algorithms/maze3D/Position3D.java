@@ -1,6 +1,6 @@
 package algorithms.maze3D;
 
-public class Position3D  {
+public class Position3D {
     private int DepthIndex, RowIndex, ColumnIndex;
 
     public Position3D(int depthIndex, int rowIndex, int columnIndex) {
@@ -23,16 +23,19 @@ public class Position3D  {
 
     @Override
     public String toString() {
-        return "{"+DepthIndex+","+RowIndex+","+ColumnIndex+ "}";
+        return "{" + DepthIndex + "," + RowIndex + "," + ColumnIndex + "}";
     }
 
     @Override
     public boolean equals(Object obj) {
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
         Position3D p = (Position3D) obj;
-        int d= p.getDepthIndex();
+        int d = p.getDepthIndex();
         int r = p.getRowIndex();
         int c = p.getColumnIndex();
-        return(DepthIndex==d && RowIndex==r && ColumnIndex==c);
+        return (DepthIndex == d && RowIndex == r && ColumnIndex == c);
     }
 
     public void setDepthIndex(int depthIndex) {

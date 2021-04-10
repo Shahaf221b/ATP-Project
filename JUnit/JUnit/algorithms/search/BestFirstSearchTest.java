@@ -11,17 +11,6 @@ import static org.junit.jupiter.api.Assertions.*;
 class BestFirstSearchTest {
 
     private static final BestFirstSearch BestFirstSearchInstance = new BestFirstSearch();
-    private static final IMazeGenerator MazeGeneratorInstance = new MyMazeGenerator();
-
-    private SearchableMaze prepareSearchableMaze(int rows, int columns) throws Exception {
-        Maze maze = MazeGeneratorInstance.generate(rows, columns);
-        try {
-            return new SearchableMaze(maze);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
 
     /**
      * checks if BestFirstSearch Instance throws correct exception when trying to
@@ -41,20 +30,19 @@ class BestFirstSearchTest {
     /**
      * checks if BestFirstSearch Instance throws correct exception
      * when a given maze has no solution
-     * @throws Exception
+     *
+     * @throws Exception:
      */
     @Test
     public void noSolution() throws Exception {
         IMazeGenerator mg = new EmptyMazeGenerator();
-        Maze maze = mg.generate(5,5);
-        for (int i = 0; i < 5; i++){
+        Maze maze = mg.generate(5, 5);
+        for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 5; j++) {
                 Position p = new Position(i, j);
                 maze.setCell(p, 1);
             }
         }
-
-
         SearchableMaze searchableMaze = new SearchableMaze(maze);
         Throwable exception = assertThrows(Exception.class, () -> BestFirstSearchInstance.solve(searchableMaze));
 
@@ -66,28 +54,30 @@ class BestFirstSearchTest {
 
     /**
      * checks if the BestFirstSearch Instance prefers the cheaper move(diagonal)
-     * @throws Exception
+     *
+     * @throws Exception:
      */
     @Test
     public void testSelectedPath() throws Exception {
         IMazeGenerator mg = new EmptyMazeGenerator();
-        Maze maze = mg.generate(2,2);
+        Maze maze = mg.generate(2, 2);
         SearchableMaze searchableMaze = new SearchableMaze(maze);
-        Solution s =BestFirstSearchInstance.solve(searchableMaze);
+        Solution s = BestFirstSearchInstance.solve(searchableMaze);
 
-        assertTrue(s.getSolutionPath().size() ==2); //diagonal
+        assertEquals(s.getSolutionPath().size(), 2); //diagonal
     }
 
     /**
      * checks if BestFirstSearch Instance throws correct exception
      * when a maze doesn't have a goal Position
-     * @throws Exception
+     *
+     * @throws Exception:
      */
     @Test
     public void noGoalPosition() throws Exception {
         IMazeGenerator mg = new SimpleMazeGenerator();
-        Maze maze = mg.generate(4,5);
-        maze.setCell(maze.getGoalPosition(),1);
+        Maze maze = mg.generate(4, 5);
+        maze.setCell(maze.getGoalPosition(), 1);
         SearchableMaze searchableMaze = new SearchableMaze(maze);
         Throwable exception = assertThrows(Exception.class, () -> BestFirstSearchInstance.solve(searchableMaze));
 
@@ -97,23 +87,5 @@ class BestFirstSearchTest {
         assertTrue(actualMessage.contains(expectedMessage));
     }
 
-
-/*
-    @Test
-    public void testNegativeBounds() throws Exception {
-        IMazeGenerator mg = new MyMazeGenerator();
-        Maze maze = mg.generate(-7, 8);
-        SearchableMaze searchableMaze = new SearchableMaze(maze);
-        Throwable exception = assertThrows(Exception.class, () -> BestFirstSearchInstance.solve(searchableMaze));
-
-        String expectedMessage = "Maze rows and columns should be non negative numbers.";
-        String actualMessage = exception.getMessage();
-//        System.out.printf(actualMessage);
-
-        assertTrue(actualMessage.contains(expectedMessage));
-
-    }
-
- */
 
 }

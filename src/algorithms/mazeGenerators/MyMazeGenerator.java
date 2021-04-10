@@ -74,7 +74,7 @@ public class MyMazeGenerator extends AMazeGenerator {
      * returning a Position that is proper to be a Start position,
      * by considering the Goal position.
      *
-     * @param aMaze
+     * @param aMaze: the maze we want to set starting position to
      * @return Position
      */
     private Position getRandomStartPosition(Maze aMaze) {
@@ -100,8 +100,8 @@ public class MyMazeGenerator extends AMazeGenerator {
 
 
     /**
-     * @param w
-     * @param aMaze
+     * @param w:     the position wanting the neighbors for
+     * @param aMaze: the maze we want to get all neighbor walls to
      * @return ArrayList of all positions that represent walls and are neighbors of position w.
      */
     private ArrayList<Position> AllNeighborWalls(Position w, Maze aMaze) {
@@ -126,8 +126,8 @@ public class MyMazeGenerator extends AMazeGenerator {
     }
 
     /**
-     * @param w
-     * @param aMaze
+     * @param w:     the position we want to know if there' separator
+     * @param aMaze: the maze we want to know if there's separator
      * @return true if position w separates between al wall and a path cell, else returns false.
      */
     private boolean isASeparator(Position w, Maze aMaze) {
@@ -142,7 +142,7 @@ public class MyMazeGenerator extends AMazeGenerator {
     }
 
     /**
-     * @param aMaze
+     * @param aMaze: the maze
      * @return Goal Position
      */
     private Position getRandomEndPosition(Maze aMaze) {

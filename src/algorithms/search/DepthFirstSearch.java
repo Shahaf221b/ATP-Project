@@ -6,11 +6,12 @@ import java.util.Stack;
 public class DepthFirstSearch extends ASearchingAlgorithm {
 
 
-    public DepthFirstSearch(){
+    public DepthFirstSearch() {
         this.name = "DepthFirstSearch";
         this.struct = new Stack<>();
         this.solutionArray = new ArrayList<>();
     }
+
     @Override
     public Solution solve(ISearchable domain) throws Exception {
 
@@ -37,7 +38,7 @@ public class DepthFirstSearch extends ASearchingAlgorithm {
             AState state = stack.pop();
             if (state.equals(goalState)) {
                 solutionArray = getPathFromParents(state);
-                if(solutionArray==null || solutionArray.size()==0){
+                if (solutionArray == null || solutionArray.size() == 0) {
                     throw new Exception("DepthFirstSearch algorithm could not solve the given maze");
                 }
                 return new Solution(solutionArray);

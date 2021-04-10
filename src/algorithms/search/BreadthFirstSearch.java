@@ -6,7 +6,7 @@ import java.util.LinkedList;
 
 public class BreadthFirstSearch extends Abfs {
 
-    public BreadthFirstSearch(){
+    public BreadthFirstSearch() {
         this.name = "BreadthFirstSearch";
         Queue<AState> queue = new LinkedList<>();
         this.struct = queue;
@@ -14,7 +14,7 @@ public class BreadthFirstSearch extends Abfs {
     }
 
     @Override
-    public int getCost(ISearchable domain,AState s) {
+    public int getCost(ISearchable domain, AState s) {
         return 1;
     }
 

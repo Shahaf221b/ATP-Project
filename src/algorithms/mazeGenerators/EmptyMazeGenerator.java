@@ -13,7 +13,7 @@ public class EmptyMazeGenerator extends AMazeGenerator {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-        if(m == null)
+        if (m == null)
             return null;
 
         if (rows > 0 && columns > 0) {
