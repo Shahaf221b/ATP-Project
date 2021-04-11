@@ -11,6 +11,15 @@ import java.util.*;
 public class MyMaze3DGenerator extends AMaze3DGenerator {
 
 
+    /**
+     * generates a Maze3D object with random walls and paths
+     * according to given dimensions.
+     * @param depth
+     * @param row
+     * @param column
+     * @return returns a Maze3D object
+     * @throws Exception
+     */
     @Override
     public Maze3D generate(int depth, int row, int column) throws Exception {
         Maze3D aMaze = new Maze3D(depth, row, column);
@@ -97,6 +106,14 @@ public class MyMaze3DGenerator extends AMaze3DGenerator {
         return aMaze;
     }
 
+    /**
+     * makes a diagonal move in a Maze3D to a regular one
+     * @param ms
+     * @param m
+     * @param m3D
+     * @param dim
+     * @throws Exception
+     */
     private void fromDiagonalToSideHelper(MazeState ms, Maze m, Maze3D m3D, int dim) throws Exception {
         MazeState msParent = (MazeState) ms.getParent();
         int pX = msParent.getPosition().getRowIndex();
@@ -119,6 +136,10 @@ public class MyMaze3DGenerator extends AMaze3DGenerator {
         }
     }
 
+    /**
+     * @param ms
+     * @return true if we got to ms by a diagonal move, else false.
+     */
     private boolean isDiagonalMove(MazeState ms) {
         MazeState msParent = (MazeState) ms.getParent();
         int pX = msParent.getPosition().getRowIndex();
@@ -138,6 +159,7 @@ public class MyMaze3DGenerator extends AMaze3DGenerator {
         return false;
     }
 
+    /*
     private Position3D getRandomPosition3D(Maze3D maze3D) {
         int x, y, z;
         Random rand = new Random();
@@ -155,7 +177,7 @@ public class MyMaze3DGenerator extends AMaze3DGenerator {
         return newPosition;
 
     }
-
+*/
     private int AllNeighborPaths(Position3D w, Maze3D aMaze) {
         int ans = 0;
         int row = w.getRowIndex();

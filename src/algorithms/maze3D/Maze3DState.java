@@ -4,6 +4,10 @@ import algorithms.search.AState;
 
 import java.util.Objects;
 
+/**
+ * Represent a state in Maze3D
+ * every Maze3DState has a private Position3D that he represents.
+ */
 public class Maze3DState extends AState {
 
     private final Position3D MyPosition;

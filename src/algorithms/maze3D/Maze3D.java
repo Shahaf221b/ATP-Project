@@ -2,6 +2,9 @@ package algorithms.maze3D;
 
 import java.util.Arrays;
 
+/**
+ * Represents a 3D Maze
+ */
 public class Maze3D {
     private final int depth;
     private final int rows;
@@ -24,6 +27,14 @@ public class Maze3D {
         }
     }
 
+    /**
+     * @param depth
+     * @param row
+     * @param columns
+     * @param val
+     * changes the cell in the maze matrix according to parameters(depth,row,columns)
+     * to given val
+     */
     public void changeVal(int depth, int row, int columns,int val){
         m_maze[depth][row][columns] = val;
     }
@@ -93,7 +104,11 @@ public class Maze3D {
     }
 
 
-    public void setMaze3DState(Maze3DState maze3DState) { //setPosition3D
+    /**
+     * @param maze3DState
+     * set cell in mazeStates matrix according to a given Maze3DState
+     */
+    public void setMaze3DState(Maze3DState maze3DState) {
         Position3D p = maze3DState.getPosition();
         int pDepth = p.getDepthIndex();
         int pRow = p.getRowIndex();
@@ -103,6 +118,12 @@ public class Maze3D {
         }
     }
 
+    /**
+     * @param p
+     * @param val
+     * sets cell value to given val,
+     * in the maze matrix according to a given Position3D
+     */
     public void setCell(Position3D p, int val) {
         int pDepth = p.getDepthIndex();
         int pRow = p.getRowIndex();
@@ -139,6 +160,12 @@ public class Maze3D {
         return -1;
     }
 
+    /**
+     * @param d - depth
+     * @param r - row
+     * @param c - column
+     * @return returns the value of the cell in the maze matrix
+     */
     public int getVal(int d, int r, int c) {
         if (d < depth && r < rows && c < columns && d >= 0 && r >= 0 && c >= 0) {
             return m_maze[d][r][c];
