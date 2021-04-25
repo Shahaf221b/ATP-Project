@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 
 public class MyCompressorOutputStream extends OutputStream {
-    private OutputStream out;
+    protected OutputStream out;
 
     public MyCompressorOutputStream(OutputStream outputStream) {
         this.out = outputStream;
@@ -16,7 +16,7 @@ public class MyCompressorOutputStream extends OutputStream {
     }
     // (b[] byte(write v)
     @Override
-    public void write(byte[] b){
+    public void write(byte[] b) throws IOException {
 
     }
 }
