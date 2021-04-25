@@ -3,7 +3,6 @@ package algorithms.mazeGenerators;
 import algorithms.search.MazeState;
 
 import java.util.Arrays;
-import java.util.List;
 
 /**
  * A maze object.
@@ -11,7 +10,7 @@ import java.util.List;
 public class Maze {
     private final int rows;
     private final int columns;
-    private final int[][] m_maze ;
+    private final int[][] m_maze;
     private Position startPosition;
     private Position goalPosition;
     private final MazeState[][] mazeStates;
@@ -56,6 +55,36 @@ public class Maze {
         this.mazeStates = new MazeState[rows][columns];
         for (int i = 0; i < rows; i++) {
             Arrays.fill(m_maze[i], val);
+        }
+    }
+
+    public Maze(byte[] bytes) throws Exception {
+        if (bytes.length < 19) {
+            throw new Exception("parameter doesn't contain all data needed");
+        }
+        //get maze dimensions
+        int numOfRows = ((int) bytes[0] & 255) * ((int) bytes[1] & 255) + ((int) bytes[2] & 255);
+        int numOfColumns = ((int) bytes[3] & 255) * ((int) bytes[4] & 255) + ((int) bytes[5] & 255);
+        // init a maze according to given dimensions
+        this.rows = numOfRows;
+        this.columns = numOfColumns;
+        this.m_maze = new int[numOfRows][numOfColumns];
+        this.mazeStates = new MazeState[numOfRows][numOfColumns];
+        //get&set maze start position
+        int startRow = ((int) bytes[6] & 255) * ((int) bytes[7] & 255) + ((int) bytes[8] & 255);
+        int startColumn = ((int) bytes[9] & 255) * ((int) bytes[10] & 255) + ((int) bytes[11] & 255);
+        this.setStartPosition(new Position(startRow, startColumn));
+        //get&set maze end position
+        int endRow = ((int) bytes[12] & 255) * ((int) bytes[13] & 255) + ((int) bytes[14] & 255);
+        int endColumn = ((int) bytes[15] & 255) * ((int) bytes[16] & 255) + ((int) bytes[17] & 255);
+        this.setGoalPosition(new Position(endRow, endColumn));
+
+        int index = 18;
+        for (int i = 0; i < numOfRows; i++) {
+            for (int j = 0; j < numOfColumns; j++) {
+                m_maze[i][j] = bytes[index];
+                index++;
+            }
         }
     }
 
@@ -169,184 +198,94 @@ public class Maze {
      * The first digit represents how many times the digit 0 appears in sequence starting from position (0,0).
      * The second digit represents how many times the digit 1 appears afterwards, etc ..
      */
-    public byte[] toByteArray(){
-        byte r1,r2=0,c1,c2=0,s1,s2=0,s4,s5=0,e1,e2=0,e4,e5=0;
-        int r3,c3,s3,s6,e3,e6;
-        if(rows>255){
-            r1= (byte) 255;
+    public byte[] toByteArray() {
+        byte r1, r2 = 0, c1, c2 = 0, s1, s2 = 0, s4, s5 = 0, e1, e2 = 0, e4, e5 = 0;
+        int r3, c3, s3, s6, e3, e6;
+        if (rows > 255) {
+            r1 = (byte) 255;
             r3 = rows;
-            while(r3>255){
+            while (r3 > 255) {
                 r2++;
-                r3 -=255;
+                r3 -= 255;
             }
-        }
-        else{
+        } else {
             r1 = (byte) rows;
-            r2 =1;
-            r3=0;
+            r2 = 1;
+            r3 = 0;
         }
-        if(columns>255){
-            c1= (byte) 255;
+        if (columns > 255) {
+            c1 = (byte) 255;
             c3 = columns;
-            while(c3>255){
+            while (c3 > 255) {
                 c2++;
-                c3 -=255;
+                c3 -= 255;
             }
-        }
-        else{
+        } else {
             c1 = (byte) columns;
-            c2=1;
-            c3=0;
+            c2 = 1;
+            c3 = 0;
         }
-        if(startPosition.getRowIndex()>255){
+        if (startPosition.getRowIndex() > 255) {
             s1 = (byte) 255;
             s3 = startPosition.getRowIndex();
-            while(s3>255){
+            while (s3 > 255) {
                 s2++;
-                s3 -=255;
+                s3 -= 255;
             }
-        }
-        else{
+        } else {
             s1 = (byte) startPosition.getRowIndex();
-            s2 =1;
-            s3=0;
+            s2 = 1;
+            s3 = 0;
         }
-        if(startPosition.getColumnIndex()>255){
+        if (startPosition.getColumnIndex() > 255) {
             s4 = (byte) 255;
             s6 = startPosition.getRowIndex();
-            while(s6>255){
+            while (s6 > 255) {
                 s5++;
-                s6 -=255;
+                s6 -= 255;
             }
-        }
-        else{
+        } else {
             s4 = (byte) startPosition.getColumnIndex();
-            s5=1;
-            s6=0;
+            s5 = 1;
+            s6 = 0;
         }
-        if(goalPosition.getRowIndex()>255){
+        if (goalPosition.getRowIndex() > 255) {
             e1 = (byte) 255;
             e3 = goalPosition.getRowIndex();
-            while(e3>255){
+            while (e3 > 255) {
                 e2++;
-                e3 -=255;
+                e3 -= 255;
             }
-        }
-        else{
+        } else {
             e1 = (byte) goalPosition.getRowIndex();
-            e2 =1;
-            e3=0;
+            e2 = 1;
+            e3 = 0;
         }
-        if(goalPosition.getColumnIndex()>255){
+        if (goalPosition.getColumnIndex() > 255) {
             e4 = (byte) 255;
             e6 = goalPosition.getRowIndex();
-            while(e6>255){
+            while (e6 > 255) {
                 e5++;
-                e6 -=255;
+                e6 -= 255;
             }
-        }
-        else{
+        } else {
             e4 = (byte) goalPosition.getColumnIndex();
-            e5 =1;
-            e6=0;
+            e5 = 1;
+            e6 = 0;
         }
-        byte[] bytes = {r1,r2, (byte) r3,c1,c2, (byte) c3,s1,s2, (byte) s3,s4,s5, (byte) s6,e1,e2, (byte) e3,e4,e5, (byte) e6};
-        byte [] matrixContent=new byte[rows*columns];
-        int index=0;
-        for(int i=0; i<rows; i++){
-            for(int j=0; j<columns; j++){
+        byte[] bytes = {r1, r2, (byte) r3, c1, c2, (byte) c3, s1, s2, (byte) s3, s4, s5, (byte) s6, e1, e2, (byte) e3, e4, e5, (byte) e6};
+        byte[] matrixContent = new byte[rows * columns];
+        int index = 0;
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < columns; j++) {
                 matrixContent[index] = (byte) m_maze[i][j];
-                index +=1;
+                index += 1;
             }
         }
-        byte[] result = new byte[bytes.length+matrixContent.length];
-        System.arraycopy(bytes,0,result,0,bytes.length);
-        System.arraycopy(matrixContent,0,result,bytes.length,matrixContent.length);
+        byte[] result = new byte[bytes.length + matrixContent.length];
+        System.arraycopy(bytes, 0, result, 0, bytes.length);
+        System.arraycopy(matrixContent, 0, result, bytes.length, matrixContent.length);
         return result;
     }
 
-
-/*    private void covertSequenceIntToByte(byte[] matrixContent,int count){
-        if(count>255){
-            matrixContent[matrixContent.length] = (byte) 255;
-            matrixContent[matrixContent.length] =0;
-            int temp = count-255;
-            while(temp>255){
-                matrixContent[matrixContent.length] = (byte) 255;
-                matrixContent[matrixContent.length]=0;
-                temp -= 255;
-            }
-            matrixContent[matrixContent.length] = (byte) temp;
-        }
-    }
-
-    private int[] countSequence(int i,int j){
-        int val = m_maze[i][j], count=0,r=0,c=0;
-        for(r=i; r<rows; r++){
-            for (c=j; c<columns; c++){
-                if(m_maze[r][c]==val){
-                    count++;
-                }
-                else{
-                    return new int[]{count, r, c};
-                }
-            }
-        }
-        return new int[]{count, r, c};
-    }*/
-
-    public Maze(byte[] bytes) throws Exception {
-        if(bytes.length<19){
-            throw new Exception("parameter doesn't contain all data needed");
-        }
-        //get maze dimensions
-        int numOfRows = ((int)bytes[0]&255)*((int)bytes[1]&255)+((int)bytes[2]&255);
-        int numOfColumns = ((int)bytes[3]&255)*((int)bytes[4]&255)+((int)bytes[5]&255);
-        // init a maze according to given dimensions
-        this.rows = numOfRows;
-        this.columns = numOfColumns;
-        this.m_maze = new int[numOfRows][numOfColumns];
-        this.mazeStates = new MazeState[numOfRows][numOfColumns];
-        //get&set maze start position
-        int startRow = ((int)bytes[6]&255)*((int)bytes[7]&255)+((int)bytes[8]&255);
-        int startColumn = ((int)bytes[9]&255)*((int)bytes[10]&255)+((int)bytes[11]&255);
-        this.setStartPosition(new Position(startRow,startColumn));
-        //get&set maze end position
-        int endRow = ((int)bytes[12]&255)*((int)bytes[13]&255)+((int)bytes[14]&255);
-        int endColumn = ((int)bytes[15]&255)*((int)bytes[16]&255)+((int)bytes[17]&255);
-        this.setGoalPosition(new Position(endRow,endColumn));
-        //set maze cells
-//        int mod = 0,count,rowIndex=0,colIndex=0;
-/*        for(int index=18; index<bytes.length; index++){
-            if(index%2 == mod){
-                count = bytes[index];
-                while(count>0){
-                    this.m_maze[rowIndex][colIndex]=0;
-                    if(colIndex+1 == numOfColumns){
-                        rowIndex +=1;
-                        colIndex=0;
-                    }
-                    count -=1;
-                }
-            }
-            else{
-                count = bytes[index];
-                while(count>0){
-                    this.m_maze[rowIndex][colIndex]=1;
-                    if(colIndex+1 == numOfColumns){
-                        rowIndex +=1;
-                        colIndex=0;
-                    }
-                    count -=1;
-                }
-            }
-        }*/
-        int index = 18;
-        for(int i=0; i<numOfRows; i++){
-            for(int j=0; j<numOfColumns; j++){
-                m_maze[i][j] = bytes[index];
-                index++;
-            }
-        }
-    }
 }
