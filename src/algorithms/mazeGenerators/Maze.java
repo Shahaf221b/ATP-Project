@@ -345,6 +345,7 @@ public class Maze {
         for(int i=0; i<numOfRows; i++){
             for(int j=0; j<numOfColumns; j++){
                 m_maze[i][j] = bytes[index];
+                index++;
             }
         }
     }

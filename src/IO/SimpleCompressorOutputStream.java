@@ -5,6 +5,9 @@ import algorithms.search.MazeState;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class SimpleCompressorOutputStream extends MyCompressorOutputStream{
 
@@ -33,13 +36,14 @@ public class SimpleCompressorOutputStream extends MyCompressorOutputStream{
     public void write(byte[] b)throws IOException {
         //no need to change first 18 elements given in b
         //get maze dimensions
-        int numOfRows = b[0]*b[1]+b[2];
-        int numOfColumns = b[3]*b[4]+b[5];
-        byte[] matrixContent= new byte[numOfRows*numOfColumns]; //TODO:change
+        List<Byte> matrixContent = new ArrayList<>();
+        int numOfRows = ((int)b[0]&255)*((int)b[1]&255)+((int)b[2]&255);
+        int numOfColumns = ((int)b[3]&255)*((int)b[4]&255)+((int)b[5]&255);
+//        byte[] matrixContent= {}; //TODO:change
         int[] matrixContentHelper={0,0};
         int count,cur_index=18;
         if(b[cur_index]!=0){
-            matrixContent[0] =0;
+            matrixContent.add((byte) 0);
         }
         while(cur_index<b.length){
             matrixContentHelper = countSequence(cur_index,b);
@@ -48,13 +52,21 @@ public class SimpleCompressorOutputStream extends MyCompressorOutputStream{
                 covertSequenceIntToByte(matrixContent,count);
             }
             else{
-                matrixContent[matrixContent.length-1] = (byte) count;
+                matrixContent.add((byte) count);
             }
             cur_index = matrixContentHelper[1];
         }
-        byte[] result = new byte[b.length+matrixContent.length];
-        System.arraycopy(b,0,result,0,b.length);
-        System.arraycopy(matrixContent,0,result,b.length,matrixContent.length);
+
+        byte[] newArr = Arrays.copyOfRange(b, 0, 18);
+        byte[] result = new byte[newArr.length+matrixContent.size()];
+        System.arraycopy(newArr,0,result,0,newArr.length);
+        byte[] matrixContentToArray = new byte[matrixContent.size()];
+        for(int x=0; x<matrixContent.size(); x++){
+            matrixContentToArray[x] = matrixContent.get(x);
+        }
+        System.arraycopy(matrixContentToArray,0,result,newArr.length,matrixContentToArray.length);
+
+        System.out.println("after Simple compressor: "+Arrays.toString(result));
         this.out.write(result);
 
     }
@@ -68,17 +80,17 @@ public class SimpleCompressorOutputStream extends MyCompressorOutputStream{
         return new int[]{count, cur_index};
     }
 
-    private void covertSequenceIntToByte(byte[] matrixContent,int count){
+    private void covertSequenceIntToByte(List<Byte> matrixContent, int count){
 
-        matrixContent[matrixContent.length] = (byte) 255;
-        matrixContent[matrixContent.length] =0;
+        matrixContent.add((byte) 255);
+        matrixContent.add((byte)0);
         int temp = count-255;
         while(temp>255){
-            matrixContent[matrixContent.length] = (byte) 255;
-            matrixContent[matrixContent.length]=0;
+            matrixContent.add((byte) 255);
+            matrixContent.add((byte)0);
             temp -= 255;
         }
-        matrixContent[matrixContent.length] = (byte) temp;
+        matrixContent.add((byte) temp);
 
     }
 }

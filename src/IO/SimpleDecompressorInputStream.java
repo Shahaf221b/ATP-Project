@@ -2,7 +2,9 @@ package IO;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class SimpleDecompressorInputStream extends MyDecompressorInputStream {
 
@@ -14,31 +16,35 @@ public class SimpleDecompressorInputStream extends MyDecompressorInputStream {
     public int read(byte[] b) throws IOException {
         byte[] bytes =this.in.readAllBytes();
         byte[] newArray = Arrays.copyOfRange(bytes, 0, 18);
-        byte[] matrixContent = new byte[20]; //TODO:change
-        int m=0;
+//        byte[] matrixContent = new byte[0]; //TODO:change
+        List<Byte> matrixContent = new ArrayList<>();
         //return cells values
         int mod = 0, count;
         for (int index = 18; index < bytes.length; index++) {
             if (index % 2 == mod) {
                 count = bytes[index];
                 while (count > 0) {
-                    matrixContent[m] = 0;
+                    matrixContent.add((byte) 0);
                     count -= 1;
-                    m++;
                 }
-            } else {
+            }
+            else {
                 count = bytes[index];
                 while (count > 0) {
-                    matrixContent[m] = 1;
+                    matrixContent.add((byte) 1);
                     count -= 1;
-                    m++;
                 }
             }
         }
-        byte[] result = new byte[newArray.length + matrixContent.length];
+
+        byte[] result = new byte[newArray.length + matrixContent.size()];
         System.arraycopy(newArray, 0, result, 0, newArray.length);
-        System.arraycopy(matrixContent, 0, result, newArray.length, matrixContent.length);
-        b=result;
-        return 0;
+        byte[] matrixContentToArray = new byte[matrixContent.size()];
+        for(int x=0; x<matrixContent.size(); x++){
+            matrixContentToArray[x] = matrixContent.get(x);
+        }
+        System.arraycopy(matrixContentToArray, 0, result, newArray.length, matrixContentToArray.length);
+        System.arraycopy(result,0,b,0,result.length);
+        return result.length;
     }
 }
