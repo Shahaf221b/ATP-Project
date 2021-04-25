@@ -18,9 +18,9 @@ public class RunSearchOnMaze3D {
         Maze3D m = img3.generate(3,8,10);
 
         SearchableMaze3D searchableMaze = new SearchableMaze3D(m);
-        solveProblem(searchableMaze, new BreadthFirstSearch());
+ //       solveProblem(searchableMaze, new BreadthFirstSearch());
  //       solveProblem(searchableMaze, new DepthFirstSearch());
-//        solveProblem(searchableMaze, new BestFirstSearch());
+        solveProblem(searchableMaze, new BestFirstSearch());
     }
     private static void solveProblem(ISearchable domain, ISearchingAlgorithm
             searcher) throws Exception {
