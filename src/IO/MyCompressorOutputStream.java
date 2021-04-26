@@ -18,10 +18,10 @@ public class MyCompressorOutputStream extends OutputStream {
         this.out = outputStream;
     }
 
-    // TODO:?
+
     @Override
     public void write(int b) throws IOException {
-
+        out.write(b);
     }
 
     // (b[] byte(write v)
