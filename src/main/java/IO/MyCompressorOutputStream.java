@@ -12,7 +12,7 @@ import java.util.zip.InflaterOutputStream;
 public class MyCompressorOutputStream extends OutputStream {
     protected OutputStream out;
 
-    byte[] result;
+
 
     public MyCompressorOutputStream(OutputStream outputStream) {
         this.out = outputStream;
@@ -77,7 +77,7 @@ public class MyCompressorOutputStream extends OutputStream {
         }
 
         byte[] newArr = Arrays.copyOfRange(b, 0, 18);
-        result = new byte[newArr.length + matrixContent.size()];
+        byte[] result = new byte[newArr.length + matrixContent.size()];
         System.arraycopy(newArr, 0, result, 0, newArr.length);
         byte[] matrixContentToArray = new byte[matrixContent.size()];
         for (int x = 0; x < matrixContent.size(); x++) {

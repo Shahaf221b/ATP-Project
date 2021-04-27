@@ -25,8 +25,17 @@ public class RunCommunicateWithServers {
                 ServerStrategySolveSearchProblem());
 //Server stringReverserServer = new Server(5402, 1000, new ServerStrategyStringReverser());
 //Starting servers
-        solveSearchProblemServer.start();
-        mazeGeneratingServer.start();
+
+/*        solveSearchProblemServer.start();
+        mazeGeneratingServer.start();*/
+
+        new Thread(()->{
+            solveSearchProblemServer.start();
+        }).start();
+
+        new Thread(()->{
+            mazeGeneratingServer.start();
+        }).start();
 //stringReverserServer.start();
 //Communicating with servers
         CommunicateWithServer_MazeGenerating();
@@ -43,6 +52,7 @@ public class RunCommunicateWithServers {
                         @Override
                         public void clientStrategy(InputStream inFromServer,
                                                    OutputStream outToServer) {
+                            System.out.println("***only for test- see if got into client strategy generate***");//TODO:remove
                             try {
                                 ObjectOutputStream toServer = new
                                         ObjectOutputStream(outToServer);
