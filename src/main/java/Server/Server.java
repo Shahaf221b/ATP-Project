@@ -3,6 +3,7 @@ package Server;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.io.DataInputStream;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -22,7 +23,7 @@ public class Server {
         this.port = port;
         this.listeningIntervalMS = listeningIntervalMS;
         strategy = Strategy;
-        this.threadPool = Executors.newFixedThreadPool(3);
+        this.threadPool = Executors.newFixedThreadPool(1);
     }
 
     public void start(){
@@ -36,8 +37,12 @@ public class Server {
                 try {
                     Thread.sleep(5000);
                     Socket clientSocket = serverSocket.accept();
+                    Thread.sleep(5000);
 //                    LOG.info("Client accepted: " + clientSocket.toString());
                     System.out.println("Client accepted: " + clientSocket.toString());
+
+                    //wait to client input??
+ //                   Thread.sleep(10000);
 
                     // This thread will handle the new Client
                     threadPool.execute(()->{
@@ -65,6 +70,7 @@ public class Server {
         System.out.println("***only for test, check if client got into handleClient***"); //TODO:remove
         try {
 //            Thread.sleep(9000);
+
             strategy.applyStrategy(clientSocket.getInputStream(), clientSocket.getOutputStream());
 //            LOG.info("Done handling client: " + clientSocket.toString());
             System.out.println("Done handling client: " + clientSocket.toString());

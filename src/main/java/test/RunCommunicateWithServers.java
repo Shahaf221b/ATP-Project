@@ -62,8 +62,11 @@ public class RunCommunicateWithServers {
                             try {
                                 ObjectOutputStream toServer = new
                                         ObjectOutputStream(outToServer);
+                                System.out.println("*** after creating new ObjectOutputServer in client ***");//TODO:remove
                                 ObjectInputStream fromServer = new
                                         ObjectInputStream(inFromServer);
+                                System.out.println("*** after creating new ObjectInputServer in client ***");//TODO:remove
+                                System.out.println("*** before first client flush() ***");//TODO:remove
                                 toServer.flush();
                                 Integer[] mazeDimensions = new Integer[]{50, 50};
                                 System.out.println("***before mazeDimensions were written ***");
