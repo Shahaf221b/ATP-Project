@@ -64,6 +64,7 @@ public class Server {
     private void handleClient(Socket clientSocket) {
         System.out.println("***only for test, check if client got into handleClient***"); //TODO:remove
         try {
+//            Thread.sleep(9000);
             strategy.applyStrategy(clientSocket.getInputStream(), clientSocket.getOutputStream());
 //            LOG.info("Done handling client: " + clientSocket.toString());
             System.out.println("Done handling client: " + clientSocket.toString());

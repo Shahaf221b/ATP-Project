@@ -2,10 +2,13 @@ package Server;
 
 import IO.MyCompressorOutputStream;
 import algorithms.mazeGenerators.Maze;
+import algorithms.mazeGenerators.MyMazeGenerator;
 
 import java.io.*;
 import java.nio.channels.Channels;
 import java.util.Arrays;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class ServerStrategyGenerateMaze implements IServerStrategy{
     /**
@@ -23,8 +26,17 @@ public class ServerStrategyGenerateMaze implements IServerStrategy{
         //so it will stop when getting interrupt
 //        InputStream interruptInputStream = Channels.newInputStream(Channels.newChannel((inFromClient)));
 
-        ObjectInputStream fromClient = new ObjectInputStream(inFromClient);
-        System.out.println("***"+Arrays.toString((int[])fromClient.readObject())+"***");
+       ObjectInputStream fromClient = new ObjectInputStream(inFromClient);
+
+/*        if(fromClient != null){
+            System.out.println("***input from client not null***");
+        }
+        System.out.println("*** getting the int[2] array***");
+        Object obj = fromClient.readObject();
+        System.out.println("***obj is not null***");
+        int[] testArray = new int[2];
+        testArray = (int[])obj;
+        System.out.println("***"+Arrays.toString(testArray)+"***");
 //        int[] givenArray = (int[])fromClient.readObject();
 
         int[] givenArray = getArray(fromClient);
@@ -35,11 +47,21 @@ public class ServerStrategyGenerateMaze implements IServerStrategy{
         System.out.println("*** rows,columns: "+rows+","+columns+"***");
 
         System.out.println("***only for test, if got the input array(ServerStrategyGenerateMaze)***");//TODO:remove
-        System.out.println("***given array: "+givenArray+" ***");//TODO:remove
+        System.out.println("***given array: "+givenArray+" ***");//TODO:remove*/
+        int[] givenArray = new int[2];
+
         try {
             while (fromClient != null ) {
                Thread.sleep(2000);
-                Maze newMaze = new Maze(rows,columns);
+//               givenArray = (int[]) fromClient.readObject();
+                byte[] allBytes = new byte[0];
+                fromClient.read(allBytes);
+                System.out.println("*** input from client in byte[]: "+Arrays.toString(allBytes)+" ***");
+
+                int rows=givenArray[0];
+                int columns = givenArray[1];
+                MyMazeGenerator mazeGenerator = new MyMazeGenerator();
+                Maze newMaze = mazeGenerator.generate(rows,columns);
 
                 System.out.println("only for test, the maze server created: ");
                 newMaze.print();
@@ -47,6 +69,9 @@ public class ServerStrategyGenerateMaze implements IServerStrategy{
                 OutputStream out = new MyCompressorOutputStream(outToClient);
                 out.write(newMaze.toByteArray());
                 out.flush();
+
+                fromClient.close();
+                out.close();
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -57,7 +82,23 @@ public class ServerStrategyGenerateMaze implements IServerStrategy{
         }
     }
 
-    public synchronized int[] getArray(ObjectInputStream objectInputStream) throws IOException, ClassNotFoundException {
-        return (int[]) objectInputStream.readObject();
+    public class GetArray extends TimerTask{
+        private ObjectInputStream objectInputStream;
+        private int[] ans;
+        @Override
+        public void run() {
+            try {
+                this.ans=(int[]) objectInputStream.readObject();
+                System.out.println(ans);
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+        public int[] getAns(){
+            return this.ans;
+        }
     }
+
 }

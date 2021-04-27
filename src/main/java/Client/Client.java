@@ -2,6 +2,8 @@ package Client;
 
 
 import java.io.IOException;
+import java.io.ObjectOutput;
+import java.io.ObjectOutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
 
@@ -20,6 +22,8 @@ public class Client {
     public void start(){
         try(Socket serverSocket = new Socket(serverIP, serverPort)){
             System.out.println("connected to server - IP = " + serverIP + ", Port = " + serverPort); //TODO:remove
+//            ObjectOutputStream toServer = new ObjectOutputStream(serverSocket.getOutputStream());
+//            toServer.flush();
             strategy.clientStrategy(serverSocket.getInputStream(), serverSocket.getOutputStream());
         } catch (IOException e) {
             e.printStackTrace();
