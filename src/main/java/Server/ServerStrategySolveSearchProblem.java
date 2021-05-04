@@ -1,15 +1,16 @@
 package Server;
 
 import IO.MyCompressorOutputStream;
+import algorithms.mazeGenerators.EmptyMazeGenerator;
 import algorithms.mazeGenerators.Maze;
-import algorithms.search.BreadthFirstSearch;
-import algorithms.search.ISearchingAlgorithm;
-import algorithms.search.SearchableMaze;
-import algorithms.search.Solution;
+import algorithms.mazeGenerators.MyMazeGenerator;
+import algorithms.mazeGenerators.SimpleMazeGenerator;
+import algorithms.search.*;
 
 import java.io.*;
 import java.nio.channels.Channels;
 import java.util.Arrays;
+import java.util.Properties;
 
 public class ServerStrategySolveSearchProblem implements IServerStrategy{
     /**
@@ -27,7 +28,21 @@ public class ServerStrategySolveSearchProblem implements IServerStrategy{
 
         Maze givenMaze = (Maze) fromClient.readObject();
         SearchableMaze searchableMaze = new SearchableMaze(givenMaze);
-        ISearchingAlgorithm searcher = new BreadthFirstSearch();
+
+        //TODO: change
+        Properties prop = Configurations.getInstance();
+        String solverName = prop.getProperty("mazeSearchingAlgorithm"); // getting mazeSearchingAlgorithm
+
+        ISearchingAlgorithm searcher = null;
+        if(solverName.equals("BestFirstSearch")) {
+            searcher = new BestFirstSearch();
+        }
+        else if (solverName.equals("BreadthFirstSearch")){
+            searcher = new BreadthFirstSearch();
+        }
+        else if(solverName.equals("DepthFirstSearch")){
+            searcher = new DepthFirstSearch();
+        }
         try {
             Solution solution = searcher.solve(searchableMaze);
             ObjectOutputStream toClient = new ObjectOutputStream(outToClient);

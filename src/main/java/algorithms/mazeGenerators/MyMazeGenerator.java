@@ -49,6 +49,8 @@ public class MyMazeGenerator extends AMazeGenerator {
         return aMaze;
     }
 
+
+
     /**
      * check if two positions are neighbors in given maze.
      *

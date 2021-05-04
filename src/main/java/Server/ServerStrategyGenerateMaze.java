@@ -1,12 +1,12 @@
 package Server;
 
 import IO.MyCompressorOutputStream;
-import algorithms.mazeGenerators.Maze;
-import algorithms.mazeGenerators.MyMazeGenerator;
+import algorithms.mazeGenerators.*;
 
 import java.io.*;
 import java.nio.channels.Channels;
 import java.util.Arrays;
+import java.util.Properties;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -36,7 +36,22 @@ public class ServerStrategyGenerateMaze implements IServerStrategy{
 //            System.out.println("given array: "+Arrays.toString(givenArray));//TODO: remove
             int rows=givenArray[0];
             int columns = givenArray[1];
-            MyMazeGenerator mazeGenerator = new MyMazeGenerator(); //TODO: check
+
+            //TODO: change
+            Properties prop = Configurations.getInstance();
+            String mazeGeneratorName = prop.getProperty("mazeGeneratingAlgorithm"); // getting mazeGeneratingAlgorithm
+            IMazeGenerator mazeGenerator = null;
+            if(mazeGeneratorName.equals("SimpleMazeGenerator")) {
+                mazeGenerator = new SimpleMazeGenerator();
+            }
+            else if (mazeGeneratorName.equals("EmptyMazeGenerator")){
+                mazeGenerator = new EmptyMazeGenerator();
+            }
+            else if(mazeGeneratorName.equals("MyMazeGenerator")){
+                mazeGenerator = new MyMazeGenerator();
+            }
+
+            //generate maze
             Maze newMaze = mazeGenerator.generate(rows,columns);
 
             ObjectOutputStream out = new ObjectOutputStream(outToClient);

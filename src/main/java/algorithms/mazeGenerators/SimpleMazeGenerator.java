@@ -7,6 +7,7 @@ import java.util.Random;
  */
 public class SimpleMazeGenerator extends AMazeGenerator {
 
+
     @Override
     public Maze generate(int rows, int columns) throws Exception {
         Maze aMaze = null;
@@ -33,4 +34,6 @@ public class SimpleMazeGenerator extends AMazeGenerator {
         }
         return aMaze;
     }
+
+
 }

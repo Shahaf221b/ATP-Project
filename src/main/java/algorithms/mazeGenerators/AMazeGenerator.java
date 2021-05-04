@@ -12,6 +12,8 @@ public abstract class AMazeGenerator implements IMazeGenerator {
      * @param columns - define maze columns
      * @return a Maze object.
      */
+
+
     @Override
     public abstract Maze generate(int rows, int columns) throws Exception;
 
@@ -22,5 +24,6 @@ public abstract class AMazeGenerator implements IMazeGenerator {
         long bTime = System.currentTimeMillis();
         return (bTime - aTime);
     }
+
 
 }

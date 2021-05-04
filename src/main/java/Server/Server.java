@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
+import java.util.Properties;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -23,7 +24,10 @@ public class Server {
         this.port = port;
         this.listeningIntervalMS = listeningIntervalMS;
         strategy = Strategy;
-        this.threadPool = Executors.newFixedThreadPool(3);
+        Properties prop = Configurations.getInstance();
+        String poolSize = prop.getProperty("threadPoolSize");
+        int i = Integer.parseInt(poolSize);
+        this.threadPool = Executors.newFixedThreadPool(i);
     }
 
     public void start(){

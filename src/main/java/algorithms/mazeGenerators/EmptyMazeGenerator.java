@@ -5,6 +5,7 @@ package algorithms.mazeGenerators;
  */
 public class EmptyMazeGenerator extends AMazeGenerator {
 
+
     @Override
     public Maze generate(int rows, int columns) {
         Maze m = null;
@@ -22,4 +23,6 @@ public class EmptyMazeGenerator extends AMazeGenerator {
         }
         return m;
     }
+
+
 }

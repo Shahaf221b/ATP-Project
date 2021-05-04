@@ -16,9 +16,18 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Properties;
+
+import Server.Configurations;
 
 public class RunCommunicateWithServers {
     public static void main(String[] args) {
+
+        Properties p = Configurations.getInstance();
+        //TODO: remove- only for tests
+        p.setProperty("mazeGeneratingAlgorithm", "SimpleMazeGenerator") ;
+        p.setProperty("mazeGeneratingAlgorithm", "MyMazeGenerator" +
+                "");
 //Initializing servers
         Server mazeGeneratingServer = new Server(5400, 1000, new
                 ServerStrategyGenerateMaze());
