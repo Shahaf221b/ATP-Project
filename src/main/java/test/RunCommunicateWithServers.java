@@ -24,10 +24,7 @@ public class RunCommunicateWithServers {
     public static void main(String[] args) {
 
         Properties p = Configurations.getInstance();
-        //TODO: remove- only for tests
-        p.setProperty("mazeGeneratingAlgorithm", "SimpleMazeGenerator") ;
-        p.setProperty("mazeGeneratingAlgorithm", "MyMazeGenerator" +
-                "");
+
 //Initializing servers
         Server mazeGeneratingServer = new Server(5400, 1000, new
                 ServerStrategyGenerateMaze());
