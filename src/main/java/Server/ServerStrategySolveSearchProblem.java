@@ -9,6 +9,7 @@ import algorithms.search.Solution;
 
 import java.io.*;
 import java.nio.channels.Channels;
+import java.util.Arrays;
 
 public class ServerStrategySolveSearchProblem implements IServerStrategy{
     /**
@@ -24,13 +25,13 @@ public class ServerStrategySolveSearchProblem implements IServerStrategy{
         InputStream interruptInputStream = Channels.newInputStream(Channels.newChannel((inFromClient)));
         ObjectInputStream fromClient = new ObjectInputStream(interruptInputStream);
 
-        ObjectOutputStream toClient = new ObjectOutputStream(outToClient);
-
         Maze givenMaze = (Maze) fromClient.readObject();
         SearchableMaze searchableMaze = new SearchableMaze(givenMaze);
         ISearchingAlgorithm searcher = new BreadthFirstSearch();
         try {
             Solution solution = searcher.solve(searchableMaze);
+            ObjectOutputStream toClient = new ObjectOutputStream(outToClient);
+            toClient.flush();
             toClient.writeObject(solution);
             toClient.flush();
 

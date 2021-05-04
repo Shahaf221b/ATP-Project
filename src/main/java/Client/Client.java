@@ -21,7 +21,7 @@ public class Client {
 
     public void start(){
         try(Socket serverSocket = new Socket(serverIP, serverPort)){
-            System.out.println("client connected to server - IP = " + serverIP + ", Port = " + serverPort); //TODO:remove
+//            System.out.println("client connected to server - IP = " + serverIP + ", Port = " + serverPort); //TODO:remove
 //            ObjectOutputStream toServer = new ObjectOutputStream(serverSocket.getOutputStream());
 //            toServer.flush();
 
@@ -32,7 +32,6 @@ public class Client {
         }
     }
 
-    //TODO:implement
     public void communicateWithServer() {
         try{
             Thread.sleep(10);

@@ -21,58 +21,37 @@ public class ServerStrategyGenerateMaze implements IServerStrategy{
      */
     @Override
     public void applyStrategy(InputStream inFromClient, OutputStream outToClient) throws IOException, ClassNotFoundException {
-        System.out.println("***only for test, check if client got into applyStrategy in Generate***"); //TODO:remove
-
         //so it will stop when getting interrupt
-//        InputStream interruptInputStream = Channels.newInputStream(Channels.newChannel((inFromClient)));
+        InputStream interruptInputStream = Channels.newInputStream(Channels.newChannel((inFromClient)));
 
-       ObjectInputStream fromClient = new ObjectInputStream(inFromClient);
+       ObjectInputStream fromClient = new ObjectInputStream(interruptInputStream);
+       ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
 
-/*        if(fromClient != null){
-            System.out.println("***input from client not null***");
-        }
-        System.out.println("*** getting the int[2] array***");
-        Object obj = fromClient.readObject();
-        System.out.println("***obj is not null***");
-        int[] testArray = new int[2];
-        testArray = (int[])obj;
-        System.out.println("***"+Arrays.toString(testArray)+"***");
-//        int[] givenArray = (int[])fromClient.readObject();
-
-        int[] givenArray = getArray(fromClient);
-        System.out.println("***"+ Arrays.toString(givenArray)+"***");
-
-        int rows=givenArray[0];
-        int columns = givenArray[1];
-        System.out.println("*** rows,columns: "+rows+","+columns+"***");
-
-        System.out.println("***only for test, if got the input array(ServerStrategyGenerateMaze)***");//TODO:remove
-        System.out.println("***given array: "+givenArray+" ***");//TODO:remove*/
-        int[] givenArray = new int[2];
 
         try {
-            while (fromClient != null ) {
-               Thread.sleep(2000);
-//               givenArray = (int[]) fromClient.readObject();
-                byte[] allBytes = new byte[0];
-                fromClient.read(allBytes);
-                System.out.println("*** input from client in byte[]: "+Arrays.toString(allBytes)+" ***");
 
-                int rows=givenArray[0];
-                int columns = givenArray[1];
-                MyMazeGenerator mazeGenerator = new MyMazeGenerator();
-                Maze newMaze = mazeGenerator.generate(rows,columns);
+           Thread.sleep(2000);
+            int[] givenArray ;
+            givenArray = (int[])fromClient.readObject();
+//            System.out.println("given array: "+Arrays.toString(givenArray));//TODO: remove
+            int rows=givenArray[0];
+            int columns = givenArray[1];
+            MyMazeGenerator mazeGenerator = new MyMazeGenerator(); //TODO: check
+            Maze newMaze = mazeGenerator.generate(rows,columns);
 
-                System.out.println("only for test, the maze server created: ");
-                newMaze.print();
+            ObjectOutputStream out = new ObjectOutputStream(outToClient);
 
-                OutputStream out = new MyCompressorOutputStream(outToClient);
-                out.write(newMaze.toByteArray());
-                out.flush();
+            MyCompressorOutputStream myOut = new MyCompressorOutputStream(byteArrayOutputStream);
+            byte[] mazeBytes = newMaze.toByteArray();
+//            System.out.println("maze bytes: "+Arrays.toString(mazeBytes)); //TODO: remove
+            myOut.write(mazeBytes);
+  //          System.out.println("bytearrayout: "+Arrays.toString(byteArrayOutputStream.toByteArray())); //TODO: remove
+            out.writeObject(byteArrayOutputStream.toByteArray());
+            out.flush();
 
-                fromClient.close();
-                out.close();
-            }
+            fromClient.close();
+            out.close();
+
         } catch (IOException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
@@ -82,23 +61,5 @@ public class ServerStrategyGenerateMaze implements IServerStrategy{
         }
     }
 
-    public class GetArray extends TimerTask{
-        private ObjectInputStream objectInputStream;
-        private int[] ans;
-        @Override
-        public void run() {
-            try {
-                this.ans=(int[]) objectInputStream.readObject();
-                System.out.println(ans);
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
-            }
-        }
-        public int[] getAns(){
-            return this.ans;
-        }
-    }
 
 }

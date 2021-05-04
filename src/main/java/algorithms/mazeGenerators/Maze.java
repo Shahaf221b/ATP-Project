@@ -2,12 +2,13 @@ package algorithms.mazeGenerators;
 
 import algorithms.search.MazeState;
 
+import java.io.Serializable;
 import java.util.Arrays;
 
 /**
  * A maze object.
  */
-public class Maze {
+public class Maze implements Serializable {
     private final int rows;
     private final int columns;
     private final int[][] m_maze;

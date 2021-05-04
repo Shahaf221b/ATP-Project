@@ -29,9 +29,9 @@ public class MyCompressorOutputStream extends OutputStream {
     public void write(byte[] b) throws IOException {
 //        byte[] simpleCompressResult = Arrays.copyOf(result, result.length);
         byte[] compressed = compress(b);
-        System.out.println("MyCompressorOutputStream length: " + compressed.length);
+//        System.out.println("MyCompressorOutputStream length: " + compressed.length);
         this.out.write(compressed);
-        System.out.println(Arrays.toString(compressed));
+//        System.out.println(Arrays.toString(compressed));
 
     }
 
