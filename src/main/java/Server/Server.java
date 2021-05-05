@@ -40,7 +40,7 @@ public class Server {
             ServerSocket serverSocket = new ServerSocket(port);
             serverSocket.setSoTimeout(listeningIntervalMS);
 //            LOG.info("Starting server at port = " + port);
-//            System.out.println("Starting server at port = " + port);
+            System.out.println("Starting server at port = " + port);
 
             while (!stop) {
                 try {
@@ -71,6 +71,7 @@ public class Server {
             threadPool.shutdown();
         } catch (Exception e) {
 //            LOG.error("IOException", e);
+            System.out.println("exception at server"); //TODO:remove
             System.out.println(e.getMessage());
         }
     }

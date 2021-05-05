@@ -17,7 +17,7 @@ public class Configurations {
             OutputStream output = new FileOutputStream("projectResources/config.properties");
             //singleton
             config = new Properties();
-            config.put("threadPoolSize","1");
+            config.put("threadPoolSize","6");
             config.put("mazeGeneratingAlgorithm", "MyMazeGenerator");
             config.put("mazeSearchingAlgorithm","BreadthFirstSearch");
             //TODO: check if more properties needed
