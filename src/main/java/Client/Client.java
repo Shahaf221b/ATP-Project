@@ -21,14 +21,9 @@ public class Client {
 
     public void start(){
         try(Socket serverSocket = new Socket(serverIP, serverPort)){
-            System.out.println("client connected to server - IP = " + serverIP + ", Port = " + serverPort); //TODO:remove
-//            ObjectOutputStream toServer = new ObjectOutputStream(serverSocket.getOutputStream());
-//            toServer.flush();
-
-
             strategy.clientStrategy(serverSocket.getInputStream(), serverSocket.getOutputStream());
         } catch (IOException e) {
-            e.printStackTrace();
+ //           e.printStackTrace(); ->implement in part c
         }
     }
 
@@ -38,8 +33,7 @@ public class Client {
             start();
         }
     catch(Exception e){
-        System.out.println("exception in client"); //TODO: remove
-       e.getMessage();
+ //      e.getMessage(); ->implement in part c
     }
 
     }

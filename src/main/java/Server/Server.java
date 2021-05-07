@@ -39,8 +39,8 @@ public class Server {
         try {
             ServerSocket serverSocket = new ServerSocket(port);
             serverSocket.setSoTimeout(listeningIntervalMS);
-//            LOG.info("Starting server at port = " + port);
-            System.out.println("Starting server at port = " + port);
+//            LOG.info("Starting server at port = " + port); ->implement in part c
+
 
             while (!stop) {
                 try {
@@ -48,10 +48,7 @@ public class Server {
                     Socket clientSocket = serverSocket.accept();
 
 //                    LOG.info("Client accepted: " + clientSocket.toString());
-//                    System.out.println("Client accepted: " + clientSocket.toString());
-
-                    //wait to client input??
- //                   Thread.sleep(10000);
+//                    System.out.println("Client accepted: " + clientSocket.toString()); ->implement in part c
 
                     // This thread will handle the new Client
                     threadPool.execute(()->{
@@ -59,20 +56,15 @@ public class Server {
                     });
 
 
-/*                    new Thread(() -> {
-                        handleClient(clientSocket);
-                    }).start();*/
-
                 } catch (SocketTimeoutException e){
 //                    LOG.debug("Socket timeout");
-//                    System.out.println("Socket timeout");
+//                    System.out.println("Socket timeout"); ->implement in part c
                 }
             }
             threadPool.shutdown();
         } catch (Exception e) {
-//            LOG.error("IOException", e);
-            System.out.println("exception at server"); //TODO:remove
-            System.out.println(e.getMessage());
+//            LOG.error("IOException", e); ->implement in part c
+ //           System.out.println(e.getMessage());
         }
     }
 
@@ -86,7 +78,7 @@ public class Server {
             clientSocket.close();
         } catch (Exception e){
 //            LOG.error("IOException", e);
-            System.out.println("IOException"+e.getMessage());
+//            System.out.println("IOException"+e.getMessage()); ->implement in part c
         }
     }
 
