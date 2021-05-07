@@ -2,8 +2,6 @@ package Client;
 
 
 import java.io.IOException;
-import java.io.ObjectOutput;
-import java.io.ObjectOutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
 

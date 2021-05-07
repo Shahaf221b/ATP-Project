@@ -14,10 +14,6 @@ public class MyDecompressorInputStream extends InputStream {
         this.in =inputStream;
     }
 
-//    @Override
-//    public int read() throws IOException {
-//        return 0;
-//    }
 
     @Override
     public int read() throws IOException {
@@ -27,8 +23,6 @@ public class MyDecompressorInputStream extends InputStream {
     @Override
     public int read(byte[] b) throws IOException {
         byte[] bytes = this.in.readAllBytes();
-//        byte[] firstByte = Arrays.copyOfRange(bytes, 0, 1);
-//        System.out.println("de: " + Arrays.toString(bytes));
         byte[] decompressed = decompress(bytes);
         System.arraycopy(decompressed, 0, b, 0, decompressed.length);
         return decompressed.length;

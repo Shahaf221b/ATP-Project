@@ -33,11 +33,9 @@ public class ServerStrategyGenerateMaze implements IServerStrategy{
            Thread.sleep(2000);
             int[] givenArray ;
             givenArray = (int[])fromClient.readObject();
-//            System.out.println("given array: "+Arrays.toString(givenArray));//TODO: remove
             int rows=givenArray[0];
             int columns = givenArray[1];
 
-            //TODO: change
             Properties prop = Configurations.getInstance();
             String mazeGeneratorName = prop.getProperty("mazeGeneratingAlgorithm"); // getting mazeGeneratingAlgorithm
             IMazeGenerator mazeGenerator = null;
@@ -58,9 +56,7 @@ public class ServerStrategyGenerateMaze implements IServerStrategy{
 
             MyCompressorOutputStream myOut = new MyCompressorOutputStream(byteArrayOutputStream);
             byte[] mazeBytes = newMaze.toByteArray();
-//            System.out.println("maze bytes: "+Arrays.toString(mazeBytes)); //TODO: remove
             myOut.write(mazeBytes);
-  //          System.out.println("bytearrayout: "+Arrays.toString(byteArrayOutputStream.toByteArray())); //TODO: remove
             out.writeObject(byteArrayOutputStream.toByteArray());
             out.flush();
 
@@ -68,11 +64,11 @@ public class ServerStrategyGenerateMaze implements IServerStrategy{
             out.close();
 
         } catch (IOException e) {
-            e.printStackTrace();
+//            e.printStackTrace(); ->implement in part c
         } catch (InterruptedException e) {
-            e.printStackTrace();
+//            e.printStackTrace(); ->implement in part c
         } catch (Exception e) {
-            e.printStackTrace();
+//            e.printStackTrace(); ->implement in part c
         }
     }
 

@@ -1,8 +1,5 @@
 package IO;
 
-import algorithms.mazeGenerators.Position;
-import algorithms.search.MazeState;
-
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
@@ -19,7 +16,6 @@ public class SimpleCompressorOutputStream extends MyCompressorOutputStream {
     @Override
     public void write(byte[] b) throws IOException {
         System.out.println("b: " + b.length);
-        // no need to change first 18 elements given in b
         // get maze dimensions
         List<Byte> matrixContent = new ArrayList<>();
         int numOfRows = ((int) b[0] & 255) * ((int) b[1] & 255) + ((int) b[2] & 255);

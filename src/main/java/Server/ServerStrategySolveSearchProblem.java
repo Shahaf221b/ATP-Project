@@ -5,14 +5,11 @@ import algorithms.search.*;
 
 import java.io.*;
 import java.nio.channels.Channels;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.*;
 
 
 public class ServerStrategySolveSearchProblem implements IServerStrategy {
     private final String tempDirectoryPath = System.getProperty("java.io.tmpdir");
-    private final Path folderPath = Paths.get(tempDirectoryPath);
     static boolean firstRun = true;
 
 
@@ -32,13 +29,13 @@ public class ServerStrategySolveSearchProblem implements IServerStrategy {
         Maze givenMaze = (Maze) fromClient.readObject();
         byte[] givenMazeByteArray = givenMaze.toByteArray();
 
-//        if (firstRun){
-//            File mazeFile = new File(tempDirectoryPath+"\\byteArrayMazesShahaf.txt");
-//            mazeFile.createNewFile();
-//            File SolFile = new File(tempDirectoryPath+"\\solutionPathsShahaf.txt");
-//            SolFile.createNewFile();
-//            firstRun = false;
-//        }
+        if (firstRun) {
+            File mazeFile = new File(tempDirectoryPath + "\\byteArrayMazes.txt");
+            mazeFile.createNewFile();
+            File SolFile = new File(tempDirectoryPath + "\\solutionPaths.txt");
+            SolFile.createNewFile();
+            firstRun = false;
+        }
 
         // helper function that checks for an existing solution
         Solution solution = mazeSolutionIsAvailable(givenMazeByteArray);
@@ -54,17 +51,8 @@ public class ServerStrategySolveSearchProblem implements IServerStrategy {
 
         /** adding the new maze to the maze file **/
 
-        // checks if file exist
 
-
-//        File tempDir = new File("byteArrayMazesShahaf.txt");
-//        if (!(tempDir.exists())){
-//            File mazeFile = new File("byteArrayMazesShahaf.txt");
-//        }
-//        if (!(new File("byteArrayMazesShahaf.txt").exists())){
-//            File mazeFile = new File("byteArrayMazesShahaf.txt");
-//        }
-        FileWriter fwMaze = new FileWriter("byteArrayMazesShahaf.txt", true);
+        FileWriter fwMaze = new FileWriter(tempDirectoryPath + "\\byteArrayMazes.txt", true);
 
         StringBuilder string = new StringBuilder();
         string.append(Arrays.toString(givenMazeByteArray));
@@ -88,14 +76,10 @@ public class ServerStrategySolveSearchProblem implements IServerStrategy {
             default -> null;
         };
 
+        assert searcher != null;
         solution = searcher.solve(searchableMaze);
 
-        //save solution in file
-//        if (!(new File("solutionPathsShahaf.txt").exists())){
-//            File solFile = new File("solutionPathsShahaf.txt");
-//        }
-
-        FileWriter fwSol = new FileWriter("solutionPathsShahaf.txt", true);
+        FileWriter fwSol = new FileWriter(tempDirectoryPath + "\\solutionPaths.txt", true);
 
         string = new StringBuilder();
         string.append(solution.getSolutionPath().toString());
@@ -115,7 +99,7 @@ public class ServerStrategySolveSearchProblem implements IServerStrategy {
     private int findMazeIndex(byte[] givenMazeByteArray) throws Exception {
         int index = 0;
 
-        Scanner scanner = new Scanner(new File("byteArrayMazesShahaf.txt"));
+        Scanner scanner = new Scanner(new File(tempDirectoryPath + "\\byteArrayMazes.txt"));
         scanner.useDelimiter("\n"); // separator
 
         while (scanner.hasNext()) {
@@ -139,7 +123,7 @@ public class ServerStrategySolveSearchProblem implements IServerStrategy {
         String solPath = null;
         int solIndex = 0;
 
-        Scanner scanner = new Scanner(new File("solutionPathsShahaf.txt"));
+        Scanner scanner = new Scanner(new File(tempDirectoryPath + "\\solutionPaths.txt"));
         scanner.useDelimiter("\n");
 
 
