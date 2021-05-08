@@ -23,7 +23,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class Main {
 
-    private static final String resultsFilePath = "resultsMain.txt";
+    private static final String resultsFilePath = "results.txt";
     private static final String logFilePath = "results.log";
     private static int Port_ServerMazeGenerating = getRandomNumber(5000, 6000);
     private static int Port_ServerSearchProblemSolver = getRandomNumber(6001, 7000);
@@ -223,7 +223,7 @@ public class Main {
                         Maze maze = mg.generate(size, size);
                         toServer.writeObject(maze); //send maze to server
                         toServer.flush();
-                        ObjectInputStream fromServer = new ObjectInputStream(inFromServer);
+                        ObjectInputStream fromServer = new ObjectInputStream(inFromServer); //TODO:check
                         Solution mazeSolution = (Solution) fromServer.readObject(); //read generated maze (compressed with MyCompressor) from server
 
                         //Print Maze Solution retrieved from the server

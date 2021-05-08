@@ -21,7 +21,7 @@ public class ServerStrategySolveSearchProblem implements IServerStrategy {
      *                     maze's solution.
      */
     @Override
-    public void applyStrategy(InputStream inFromClient, OutputStream outToClient) throws Exception {
+    public void ServerStrategy(InputStream inFromClient, OutputStream outToClient) throws Exception {
         //so it will stop when getting interrupt
         InputStream interruptInputStream = Channels.newInputStream(Channels.newChannel((inFromClient)));
         ObjectInputStream fromClient = new ObjectInputStream(interruptInputStream);
@@ -41,7 +41,7 @@ public class ServerStrategySolveSearchProblem implements IServerStrategy {
         Solution solution = mazeSolutionIsAvailable(givenMazeByteArray);
         // solution exist
         if (solution != null) {
-            System.out.println("found solution in memory !");
+//            System.out.println("found solution in memory !");
             ObjectOutputStream toClient = new ObjectOutputStream(outToClient);
             toClient.flush();
             toClient.writeObject(solution);

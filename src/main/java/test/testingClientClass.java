@@ -42,9 +42,9 @@ public class testingClientClass {
         mazeGeneratingServer.start();
 
 //Communicating with servers
- //       CommunicateWithServer_MazeGenerating();
+        CommunicateWithServer_MazeGenerating();
 
- //       CommunicateWithServer_SolveSearchProblem();
+        CommunicateWithServer_SolveSearchProblem();
 
         CommunicateWithServer_SolveSearchProblemConstMaze();
 
@@ -67,7 +67,7 @@ catch (Exception e){}
             try {
                 ObjectOutputStream toServer = new ObjectOutputStream(outToServer);
                 toServer.flush();
-                int[] mazeDimensions = new int[]{16, 25};
+                int[] mazeDimensions = new int[]{7, 4};
                 toServer.writeObject(mazeDimensions); //send maze dimensions to server
                 toServer.flush();
                 ObjectInputStream fromServer = new ObjectInputStream(inFromServer);
@@ -104,7 +104,7 @@ catch (Exception e){}
                 //Print Maze Solution retrieved from the server
                 ArrayList<AState> mazeSolutionSteps = mazeSolution.getSolutionPath();
                 for (int i = 0; i < mazeSolutionSteps.size(); i++) {
-//                    System.out.println(String.format("%s. %s", i,mazeSolutionSteps.get(i).toString()));
+                    System.out.println(String.format("%s. %s", i,mazeSolutionSteps.get(i).toString()));
                 }
             } catch (Exception e) {
             }

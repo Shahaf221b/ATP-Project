@@ -1,10 +1,5 @@
 package Server;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
-import java.io.DataInputStream;
-import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
@@ -72,7 +67,7 @@ public class Server {
         try {
 //            Thread.sleep(9000);
 
-            strategy.applyStrategy(clientSocket.getInputStream(), clientSocket.getOutputStream());
+            strategy.ServerStrategy(clientSocket.getInputStream(), clientSocket.getOutputStream());
 //            LOG.info("Done handling client: " + clientSocket.toString());
 //            System.out.println("Done handling client: " + clientSocket.toString());
             clientSocket.close();

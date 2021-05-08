@@ -58,16 +58,14 @@ public class RunCommunicateWithServers {
                             try {
                                 ObjectOutputStream toServer = new ObjectOutputStream(outToServer);
                                 toServer.flush();
-                                int[] mazeDimensions = new int[]{16, 25};
+                                int[] mazeDimensions = new int[]{10, 10};
                                 toServer.writeObject(mazeDimensions); //send maze dimensions to server
                                 toServer.flush();
                                 ObjectInputStream fromServer = new ObjectInputStream(inFromServer);
                                 byte[] compressedMaze = (byte[]) fromServer.readObject(); //read generated maze (compressed with MyCompressor) from server
-                            //    System.out.println("compressed bytes: "+Arrays.toString(compressedMaze)); //TODO: remove
                                 InputStream is = new MyDecompressorInputStream(new ByteArrayInputStream(compressedMaze));
-                                byte[] decompressedMaze = new byte[1000000 /*CHANGE SIZE ACCORDING TO YOU MAZE SIZE*/]; //allocating byte[] for the decompressed maze -
+                                byte[] decompressedMaze = new byte[1000000000 /*CHANGE SIZE ACCORDING TO YOU MAZE SIZE*/]; //allocating byte[] for the decompressed maze -
                                 is.read(decompressedMaze); //Fill decompressedMaze with bytes
-                            //    System.out.println(Arrays.toString(decompressedMaze)); //TODO remove
                                 Maze maze = new Maze(decompressedMaze);
                                 maze.print();
 
@@ -76,7 +74,7 @@ public class RunCommunicateWithServers {
                             }
                         }
             });
-            client.communicateWithServer(); //TODO: change to 1 line
+            client.communicateWithServer();
         } catch (UnknownHostException e) {
             e.printStackTrace();
         }
@@ -94,7 +92,7 @@ public class RunCommunicateWithServers {
                                 toServer.flush();
                                 MyMazeGenerator mg = new MyMazeGenerator();
 
-                                Maze maze = mg.generate(50, 50);
+                                Maze maze = mg.generate(10, 10);
                                 toServer.writeObject(maze); //send maze to server
                                 toServer.flush();
                                 ObjectInputStream fromServer = new ObjectInputStream(inFromServer);
@@ -109,7 +107,7 @@ public class RunCommunicateWithServers {
                             }
                         }
                     });
-            client.communicateWithServer(); //TODO: change to 1 line
+            client.communicateWithServer();
         } catch (UnknownHostException e) {
             e.printStackTrace();
         }

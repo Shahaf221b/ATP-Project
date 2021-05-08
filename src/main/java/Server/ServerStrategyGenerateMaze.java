@@ -20,7 +20,7 @@ public class ServerStrategyGenerateMaze implements IServerStrategy{
      * that represent the maze to the specific client.
      */
     @Override
-    public void applyStrategy(InputStream inFromClient, OutputStream outToClient) throws IOException, ClassNotFoundException {
+    public void ServerStrategy(InputStream inFromClient, OutputStream outToClient) throws IOException, ClassNotFoundException {
         //so it will stop when getting interrupt
         InputStream interruptInputStream = Channels.newInputStream(Channels.newChannel((inFromClient)));
 
