@@ -216,14 +216,13 @@ public class Main {
                         total_test++;
                         int size = (int) (50 * (i+1));
                         ObjectOutputStream toServer = new ObjectOutputStream(outToServer);
-
                         toServer.flush();
                         MyMazeGenerator mg = new MyMazeGenerator();
 
                         Maze maze = mg.generate(size, size);
                         toServer.writeObject(maze); //send maze to server
                         toServer.flush();
-                        ObjectInputStream fromServer = new ObjectInputStream(inFromServer); //TODO:check
+                        ObjectInputStream fromServer = new ObjectInputStream(inFromServer);
                         Solution mazeSolution = (Solution) fromServer.readObject(); //read generated maze (compressed with MyCompressor) from server
 
                         //Print Maze Solution retrieved from the server

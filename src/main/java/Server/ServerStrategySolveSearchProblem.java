@@ -21,78 +21,106 @@ public class ServerStrategySolveSearchProblem implements IServerStrategy {
      *                     maze's solution.
      */
     @Override
-    public void ServerStrategy(InputStream inFromClient, OutputStream outToClient) throws Exception {
+    public void ServerStrategy(InputStream inFromClient, OutputStream outToClient)  {
         //so it will stop when getting interrupt
         InputStream interruptInputStream = Channels.newInputStream(Channels.newChannel((inFromClient)));
-        ObjectInputStream fromClient = new ObjectInputStream(interruptInputStream);
+        byte[] givenMazeByteArray = new byte[0];
+        Maze givenMaze = null;
+        Solution solution = null;
+        try{
+            ObjectInputStream fromClient = new ObjectInputStream(interruptInputStream);
 
-        Maze givenMaze = (Maze) fromClient.readObject();
-        byte[] givenMazeByteArray = givenMaze.toByteArray();
-
-        if (firstRun) {
-            File mazeFile = new File(tempDirectoryPath + "\\byteArrayMazes.txt");
-            mazeFile.createNewFile();
-            File SolFile = new File(tempDirectoryPath + "\\solutionPaths.txt");
-            SolFile.createNewFile();
-            firstRun = false;
+            givenMaze = (Maze) fromClient.readObject();
+            givenMazeByteArray = givenMaze.toByteArray();
+        }
+        catch (Exception e){
+            // in part c
         }
 
-        // helper function that checks for an existing solution
-        Solution solution = mazeSolutionIsAvailable(givenMazeByteArray);
-        // solution exist
-        if (solution != null) {
+        try {
+            if (firstRun) {
+                File mazeFile = new File(tempDirectoryPath + "\\byteArrayMazes.txt");
+                mazeFile.createNewFile();
+                File SolFile = new File(tempDirectoryPath + "\\solutionPaths.txt");
+                SolFile.createNewFile();
+                firstRun = false;
+            }
+
+            // helper function that checks for an existing solution
+            solution = mazeSolutionIsAvailable(givenMazeByteArray);
+            // solution exist
+            if (solution != null) {
 //            System.out.println("found solution in memory !");
+                ObjectOutputStream toClient = new ObjectOutputStream(outToClient);
+                toClient.flush();
+                toClient.writeObject(solution);
+                toClient.flush();
+                return;
+            }
+        }
+        catch (Exception e){
+            // part c        
+        }
+
+
+        /** adding the new maze to the maze file **/
+
+        StringBuilder string;
+        try {
+            FileWriter fwMaze = new FileWriter(tempDirectoryPath + "\\byteArrayMazes.txt", true);
+
+            string = new StringBuilder();
+            string.append(Arrays.toString(givenMazeByteArray));
+            string.append("\n");
+            fwMaze.write(string.toString());
+
+            fwMaze.flush();
+            fwMaze.close();
+        }
+        catch (Exception e){
+            // part c
+        }
+
+
+        /** adding the new solution for the solution file **/
+        try{
+            SearchableMaze searchableMaze = new SearchableMaze(givenMaze);
+
+            Properties prop = Configurations.getInstance();
+            String solverName = prop.getProperty("mazeSearchingAlgorithm"); // getting mazeSearchingAlgorithm
+
+            ISearchingAlgorithm searcher = switch (solverName) {
+                case "BestFirstSearch" -> new BestFirstSearch();
+                case "BreadthFirstSearch" -> new BreadthFirstSearch();
+                case "DepthFirstSearch" -> new DepthFirstSearch();
+                default -> null;
+            };
+
+            assert searcher != null;
+            solution = searcher.solve(searchableMaze);
+
+            FileWriter fwSol = new FileWriter(tempDirectoryPath + "\\solutionPaths.txt", true);
+
+            string = new StringBuilder();
+            string.append(solution.getSolutionPath().toString());
+            string.append("\n");
+            fwSol.write(string.toString());
+            fwSol.flush();
+            fwSol.close();
+        }
+        catch (Exception e){
+            // in part c
+        }
+
+        try{
             ObjectOutputStream toClient = new ObjectOutputStream(outToClient);
             toClient.flush();
             toClient.writeObject(solution);
             toClient.flush();
-            return;
         }
-
-        /** adding the new maze to the maze file **/
-
-
-        FileWriter fwMaze = new FileWriter(tempDirectoryPath + "\\byteArrayMazes.txt", true);
-
-        StringBuilder string = new StringBuilder();
-        string.append(Arrays.toString(givenMazeByteArray));
-        string.append("\n");
-        fwMaze.write(string.toString());
-
-        fwMaze.flush();
-        fwMaze.close();
-
-
-        /** adding the new solution for the solution file **/
-        SearchableMaze searchableMaze = new SearchableMaze(givenMaze);
-
-        Properties prop = Configurations.getInstance();
-        String solverName = prop.getProperty("mazeSearchingAlgorithm"); // getting mazeSearchingAlgorithm
-
-        ISearchingAlgorithm searcher = switch (solverName) {
-            case "BestFirstSearch" -> new BestFirstSearch();
-            case "BreadthFirstSearch" -> new BreadthFirstSearch();
-            case "DepthFirstSearch" -> new DepthFirstSearch();
-            default -> null;
-        };
-
-        assert searcher != null;
-        solution = searcher.solve(searchableMaze);
-
-        FileWriter fwSol = new FileWriter(tempDirectoryPath + "\\solutionPaths.txt", true);
-
-        string = new StringBuilder();
-        string.append(solution.getSolutionPath().toString());
-        string.append("\n");
-        fwSol.write(string.toString());
-        fwSol.flush();
-        fwSol.close();
-
-
-        ObjectOutputStream toClient = new ObjectOutputStream(outToClient);
-        toClient.flush();
-        toClient.writeObject(solution);
-        toClient.flush();
+        catch (Exception e){
+            // in part c
+        }
     }
 
 

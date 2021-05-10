@@ -23,7 +23,6 @@ import Server.Configurations;
 public class RunCommunicateWithServers {
     public static void main(String[] args) {
 
-        Properties p = Configurations.getInstance(); // TODO: needs to be in server?
 
 //Initializing servers
         Server mazeGeneratingServer = new Server(5400, 1000, new

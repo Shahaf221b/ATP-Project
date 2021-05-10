@@ -20,7 +20,7 @@ import java.util.Properties;
 
 import Server.Configurations;
 public class testingClientClass {
-    public testingClientClass() throws Exception {
+    public testingClientClass()  {
     }
 
     public static void main(String[] args) {
