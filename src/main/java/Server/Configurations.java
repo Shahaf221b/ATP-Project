@@ -14,7 +14,7 @@ public class Configurations {
 
     private Configurations(){
         try{
-            OutputStream output = new FileOutputStream("projectResources/config.properties");
+            OutputStream output = new FileOutputStream("..\\\\..\\\\..\\\\config.properties");
             //singleton
             config = new Properties();
             config.put("threadPoolSize","6");

@@ -8,7 +8,7 @@ import java.util.Arrays;
 /**
  * A maze object.
  */
-public class Maze implements Serializable {
+public class Maze implements Serializable, IBoardGame {
     private final int rows;
     private final int columns;
     private final int[][] m_maze;

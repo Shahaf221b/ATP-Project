@@ -14,6 +14,7 @@ public class Server {
     private volatile boolean stop;
 //    private final Logger LOG = LogManager.getLogger(); //Log4j2
     private ExecutorService threadPool;
+    private Thread thread;
 
     public Server(int port, int listeningIntervalMS, IServerStrategy Strategy) {
         this.port = port;
@@ -26,9 +27,16 @@ public class Server {
     }
 
     public void start(){
-        new Thread(()-> {
-            runServer();
-        }).start();
+        thread = new Thread(()-> runServer());
+        thread.start();
+    }
+
+    public void joinTermination(){
+        try {
+            thread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
     public void runServer(){
         try {
@@ -81,5 +89,10 @@ public class Server {
 //        LOG.info("Stopping server...");
 //        System.out.println("Stopping server...");
         stop = true;
+        try {
+            thread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }
